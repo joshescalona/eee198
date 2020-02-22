@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="CGImap 0.7.5 (4638 thorn-01.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+ <bounds minlat="14.6465000" minlon="121.0585000" maxlat="14.6630000" maxlon="121.0741000"/>
+ <node id="17216409" visible="true" version="33" changeset="63078764" timestamp="2018-10-01T01:39:24Z" user="DearPaulPH" uid="5752740" lat="14.6549972" lon="121.0643110">
+  <tag k="junction" v="yes"/>
+ </node>
+ <node id="17216414" visible="true" version="37" changeset="57006150" timestamp="2018-03-08T16:41:04Z" user="Rally" uid="24338" lat="14.6561608" lon="121.0727613"/>
+ <node id="17216429" visible="true" version="37" changeset="63078764" timestamp="2018-10-01T01:22:56Z" user="DearPaulPH" uid="5752740" lat="14.6538678" lon="121.0686171">
+  <tag k="junction" v="yes"/>
+ </node>
+ <node id="17216432" visible="true" version="33" changeset="57005609" timestamp="2018-03-08T16:20:29Z" user="Rally" uid="24338" lat="14.6539063" lon="121.0707942"/>
+ <node id="17216435" visible="true" version="32" changeset="57006150" timestamp="2018-03-08T16:41:04Z" user="Rally" uid="24338" lat="14.6561462" lon="121.0707449"/>
+ <node id="17216442" visible="true" version="14" changeset="63078764" timestamp="2018-10-01T01:36:06Z" user="DearPaulPH" uid="5752740" lat="14.6549450" lon="121.0623539">
+  <tag k="junction" v="yes"/>
+ </node>
+ <node id="22352470" visible="true" version="25" changeset="60804426" timestamp="2018-07-17T14:46:17Z" user="ianlopez1115" uid="44938" lat="14.6545921" lon="121.0584406">
+  <tag k="crossing" v="uncontrolled"/>
+  <tag k="crossing_ref" v="zebra"/>
+  <tag k="highway" v="crossing"/>
+ </node>
+ <node id="22352523" visible="true" version="27" changeset="60804426" timestamp="2018-07-17T14:46:17Z" user="ianlopez1115" uid="44938" lat="14.6482838" lon="121.0597369"/>
+ <node id="22352553" visible="true" version="32" changeset="56996251" timestamp="2018-03-08T11:33:05Z" user="webwires" uid="7193721" lat="14.6473091" lon="121.0602864"/>
+ <node id="22352578" visible="true" version="24" changeset="56996251" timestamp="2018-03-08T11:33:05Z" user="webwires" uid="7193721" lat="14.6471869" lon="121.0616906"/>
+ <node id="22352604" visible="true" version="25" changeset="70679129" timestamp="2019-05-28T02:29:59Z" user="JosephPada" uid="8564868" lat="14.6476686" lon="121.0636648"/>
+ <node id="22352629" visible="true" version="26" changeset="70679129" timestamp="2019-05-28T02:29:59Z" user="JosephPada" uid="8564868" lat="14.6479731" lon="121.0661241"/>
+ <node id="22352654" visible="true" version="33" changeset="70098136" timestamp="2019-05-10T07:02:56Z" user="HXD70" uid="8559847" lat="14.6472645" lon="121.0678727"/>
+ <node id="22352680" visible="true" version="27" changeset="70098136" timestamp="2019-05-10T07:02:56Z" user="HXD70" uid="8559847" lat="14.6472026" lon="121.0698461"/>
+ <node id="22352736" visible="true" version="28" changeset="56996406" timestamp="2018-03-08T11:37:43Z" user="Rally" uid="24338" lat="14.6482111" lon="121.0725382"/>
+ <node id="24265131" visible="true" version="10" changeset="18675041" timestamp="2013-11-02T13:28:10Z" user="seav" uid="11126" lat="14.6548991" lon="121.0584286">
+  <tag k="highway" v="traffic_signals"/>
+ </node>
+ <node id="26082601" visible="true" version="30" changeset="79800207" timestamp="2020-01-20T13:34:49Z" user="tomgkho2" uid="9155911" lat="14.6575585" lon="121.0742238">
+  <tag k="highway" v="traffic_signals"/>
+  <tag k="traffic_signals" v="Traffic_Lights"/>
+ </node>
+ <node id="26082614" visible="true" version="25" changeset="57006150" timestamp="2018-03-08T16:41:04Z" user="Rally" uid="24338" lat="14.6575339" lon="121.0716041"/>
+ <node id="26082617" visible="true" version="34" changeset="63078764" timestamp="2018-10-01T02:01:05Z" user="DearPaulPH" uid="5752740" lat="14.6561338" lon="121.0685955">
+  <tag k="highway" v="traffic_signals"/>
+  <tag k="junction" v="yes"/>
+ </node>
+ <node id="26082644" visible="true" version="8" changeset="57463439" timestamp="2018-03-23T16:54:15Z" user="Rally" uid="24338" lat="14.6598017" lon="121.0726998"/>
+ <node id="26082653" visible="true" version="13" changeset="57006150" timestamp="2018-03-08T16:41:04Z" user="Rally" uid="24338" lat="14.6594268" lon="121.0685420"/>
+ <node id="26082684" visible="true" version="12" changeset="57463631" timestamp="2018-03-23T17:01:01Z" user="Rally" uid="24338" lat="14.6594332" lon="121.0727125"/>
+ <node id="26504542" visible="true" version="5" changeset="7791499" timestamp="2011-04-07T06:28:18Z" user="seav" uid="11126" lat="14.6443322" lon="121.0701574"/>
+ <node id="26504551" visible="true" version="6" changeset="57001979" timestamp="2018-03-08T14:53:20Z" user="Rally" uid="24338" lat="14.6460123" lon="121.0682009"/>
+ <node id="26504563" visible="true" version="27" changeset="57006533" timestamp="2018-03-08T16:57:22Z" user="Rally" uid="24338" lat="14.6477045" lon="121.0668988"/>
+ <node id="26504655" visible="true" version="6" changeset="57001979" timestamp="2018-03-08T14:53:20Z" user="Rally" uid="24338" lat="14.6464517" lon="121.0679654"/>
+ <node id="26504666" visible="true" version="30" changeset="70679129" timestamp="2019-05-28T02:29:59Z" user="JosephPada" uid="8564868" lat="14.6475376" lon="121.0642155"/>
+ <node id="29024778" visible="true" version="30" changeset="57005609" timestamp="2018-03-08T16:20:29Z" user="Rally" uid="24338" lat="14.6540542" lon="121.0728504"/>
+ <node id="29024985" visible="true" version="8" changeset="57005141" timestamp="2018-03-08T16:00:11Z" user="Rally" uid="24338" lat="14.6539724" lon="121.0708204"/>
+ <node id="29025065" visible="true" version="18" changeset="57005862" timestamp="2018-03-08T16:31:19Z" user="Rally" uid="24338" lat="14.6535852" lon="121.0728079"/>
+ <node id="29025095" visible="true" version="28" changeset="57005609" timestamp="2018-03-08T16:20:29Z" user="Rally" uid="24338" lat="14.6548806" lon="121.0731121"/>
+ <node id="29025350" visible="true" version="6" changeset="56835535" timestamp="2018-03-02T23:47:14Z" user="webwires" uid="7193721" lat="14.6540003" lon="121.0725416"/>
+ <node id="29025354" visible="true" version="8" changeset="55618403" timestamp="2018-01-21T04:10:05Z" user="webwires" uid="7193721" lat="14.6542705" lon="121.0550526"/>
+ <node id="29025388" visible="true" version="6" changeset="55618403" timestamp="2018-01-21T04:10:06Z" user="webwires" uid="7193721" lat="14.6545800" lon="121.0565522"/>
+ <node id="29025439" visible="true" version="44" changeset="63078764" timestamp="2018-10-01T01:39:24Z" user="DearPaulPH" uid="5752740" lat="14.6548201" lon="121.0643146">
+  <tag k="junction" v="yes"/>
