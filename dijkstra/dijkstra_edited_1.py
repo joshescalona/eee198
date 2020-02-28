@@ -1,7 +1,7 @@
 # A Python program for Dijkstra's shortest 
 # path algorithm for adjacency 
 # list representation of graph 
-
+from heapq import heappush, heappop
 from collections import defaultdict 
 import sys 
 
@@ -14,7 +14,8 @@ class Heap():
 
     def newMinHeapNode(self, v, dist): 
         minHeapNode = [v, dist] 
-        return minHeapNode 
+        return minHeapNode
+
 
     # A utility function to swap two nodes 
     # of min heap. Needed for min heapify 
@@ -49,7 +50,8 @@ class Heap():
             # Swap nodes 
             self.swapMinHeapNode(smallest, idx) 
 
-            self.minHeapify(smallest) 
+            self.minHeapify(smallest)
+
 
     # Standard function to extract minimum 
     # node from heap 
@@ -98,7 +100,7 @@ class Heap():
             self.swapMinHeapNode(i, (i - 1)//2 ) 
 
             # move to parent index 
-            i = (i - 1) // 2; 
+            i = (i - 1) // 2;    
 
     # A utility function to check if a given 
     # vertex 'v' is in min heap or not 
@@ -113,6 +115,10 @@ def printArr(dist, n):
     print ("Vertex\t\tDistance from source")
     for i in range(n): 
         print ("%d\t\t%d" % (i,dist[i])) 
+
+def printPath(dist, n):
+    for i in range(n):
+        print("%d \t %d" % (i,dist[i]))        
 
 
 class Graph(): 
@@ -136,56 +142,14 @@ class Graph():
         # from dest to src also 
         newNode = [src, weight] 
         self.graph[dest].insert(0, newNode) 
-
     # The main function that calulates distances 
     # of shortest paths from src to all vertices. 
     # It is a O(ELogV) function 
-    def josh(self, stop):
-        A=self.V
-    # A utility function to find the  
-    # vertex with minimum dist value, from 
-    # the set of vertices still in queue 
-    def minDistance(self,dist,queue): 
-        # Initialize min value and min_index as -1 
-        minimum = float("Inf") 
-        min_index = -1
-          
-        # from the dist array,pick one which 
-        # has min value and is till in queue 
-        for i in range(len(dist)): 
-            if dist[i] < minimum and i in queue: 
-                minimum = dist[i] 
-                min_index = i 
-        return min_index 
-  
-  
-        
+    def comp(self, src, dest):
+        o=src
 
-    # Function to print shortest path 
-    # from source to j 
-    # using parent array 
-    def printPath(self, parent, j): 
-          
-        #Base Case : If j is source 
-        if parent[j] == -1 :  
-            print (j), 
-            return
-        self.printPath(parent , parent[j]) 
-        print (j), 
-          
-  
-    # A utility function to print 
-    # the constructed distance 
-    # array 
-    def printSolution(self, dist, parent): 
-        src = 0
-        print("Vertex \t\tDistance from Source\tPath") 
-        for i in range(1, len(dist)): 
-            print("\n%d --> %d \t\t%d \t\t\t\t\t" % (src, i, dist[i])), 
-            self.printPath(parent,i) 
-  
-  
-    def dijkstra(self, src): 
+ 
+    def dijkstra(self, src, destf): 
 
         V = self.V # Get the number of vertices in graph 
         dist = [] # dist values used to pick minimum 
@@ -199,7 +163,7 @@ class Graph():
         for v in range(V): 
             dist.append(sys.maxsize) 
             minHeap.array.append( minHeap.newMinHeapNode(v, dist[v]) ) 
-            minHeap.pos.append(v) 
+            minHeap.pos.append(v)
         
 
         # Make dist value of src vertex as 0 so 
@@ -218,7 +182,7 @@ class Graph():
             # Extract the vertex with minimum distance value 
             newHeapNode = minHeap.extractMin() 
             u = newHeapNode[0] 
-
+               
             # Traverse through all adjacent vertices of 
             # u (the extracted vertex) and update their 
             # distance values 
@@ -235,6 +199,10 @@ class Graph():
                         # update distance value 
                         # in min heap also 
                         minHeap.decreaseKey(v, dist[v]) 
+                else:
+                    q=dist[u]
+                    print("%d   %d   %d" % (pCrawl[0],u,q))    
+
 
 
         printArr(dist,V)
@@ -257,7 +225,6 @@ graph.addEdge(6, 7, 1)
 graph.addEdge(6, 8, 6) 
 graph.addEdge(7, 8, 7) 
 a = int(input('Please enter your source from 0 to 8: '))
-b=int(input('Please enter your destination 0 to 8: ')) 
-graph.josh(b)
-graph.dijkstra(a)
+b = int(input('Please enter your destination 0 to 8: ')) 
+graph.dijkstra(a,b)
 # This code is contributed by Divyanshu Mehta 
