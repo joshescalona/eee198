@@ -113,5 +113,3 @@ data_colnames = ['type', 'id', 'ntags', 'tagkey', 'tagvalue', 'nodes']
 df_osm = pd.DataFrame(way_handler.osm_data, columns=data_colnames)
 #convert pandas DataFrame to .csv file
 df_osm.to_csv('out_way.csv', encoding='utf-8', index=False)
-
-
