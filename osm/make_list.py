@@ -1,18 +1,18 @@
 # this python script creates a list from the extracted data from OSM
 # the list contains adjacent nodes and respective distances between nodes
 
-# importing csv module
+import pickle
+import os
 import csv
 import pandas as pd
 from math import sin, cos, sqrt, atan2, radians
 
 def save_object(obj, filename):
-    os.makedirs(os.path.dirname(filename), exist_ok=True)
     with open(filename, 'wb') as output:  # Overwrites any existing file.
         pickle.dump(obj, output, pickle.HIGHEST_PROTOCOL)
 
-# def load_obj(name ):
-#     with open('obj/' + name + '.pkl', 'rb') as f:
+# def load_object(filename):
+#     with open(filename, 'rb') as f:
 #         return pickle.load(f)
 
 def get_node_distance(node1, node2, nodelist):
@@ -160,4 +160,9 @@ with open('mycsvfile.csv', 'w') as f:  # Just use 'w' mode in 3.x
 pd.read_csv('mycsvfile.csv', header=None).T.to_csv('adj-list.csv', header=False, index=False)
 
 # save object adj_list
-save_object(adj_list, "adj_list_obj")
+save_object(adj_list, "adj_list_obj.pkl")
+
+# store loaded object to variable
+# adj_list = load_object("adj_list_obj.pkl")
+# print(adj_list)
+
