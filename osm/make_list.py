@@ -140,7 +140,6 @@ for row_num, row in enumerate(rows_way):
                 if frozenset(addValueplus.keys()) not in adj_list[node]:
                     adj_list[node].update(addValueplus)
 
-#print(get_node_distance('17216409', '2672533803', rows_node))
 
 # converts adjacency list to csv file (horizontal mode)
 with open('mycsvfile.csv', 'w') as f:  # Just use 'w' mode in 3.x
