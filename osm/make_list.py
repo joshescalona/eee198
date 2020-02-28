@@ -1,9 +1,40 @@
 # this python script creates a list from the extracted data from OSM
-# this assumes that the edge weights between each node is equal
+# the list contains adjacent nodes and respective distances between nodes
 
 # importing csv module
 import csv
 import pandas as pd
+from math import sin, cos, sqrt, atan2, radians
+
+def get_node_distance(node1, node2, nodelist):
+    # approximate radius of earth in m
+    r_earth = 6373.0*1000      # from kilometers to meters
+
+    # get latitude and longitude of node from dataset
+    breaker = 0
+    for index, node in enumerate(nodelist):
+        if node1 in node:
+            lat1 = radians(float(nodelist[index][5]))
+            lon1 = radians(float(nodelist[index][6]))
+            breaker += 1
+
+        if node2 in node:
+            lat2 = radians(float(nodelist[index][5]))
+            lon2 = radians(float(nodelist[index][6]))
+            breaker += 1
+
+        if breaker == 2:
+            break
+
+    # compute distance via formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+
+    a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    distance = r_earth * c
+
+    return distance
 
 # csv file name
 file_node = "out_node.csv"
@@ -40,6 +71,7 @@ with open(file_way, 'r') as csvfile:
     for row in csvreader:
         rows_way.append(row)
 
+
 # making the adjacency list
 adj_list = {}
 # read each way
@@ -48,51 +80,67 @@ for row_num, row in enumerate(rows_way):
     temp_nodelist = row[5].replace('[','')
     temp_nodelist = temp_nodelist.replace(']','')
     way_nodelist = temp_nodelist.split(',')
-    #way_nodelist = list(map(int, way_nodelist))
+    # way_nodelist = list(map(int, way_nodelist))
 
     for index, node in enumerate(way_nodelist):
-        addValue = []
+        addValue = {}
+        addValueplus = {}
+        addValueminus = {}
+        two_value = 0
         # way is not oneway
         if "oneway" not in row[3]:
             # check if first node
             if index == 0:
-                addValue = way_nodelist[index+1]
+                #get latitude and longitude of nodes
+                node_distance = get_node_distance(way_nodelist[index], way_nodelist[index+1], rows_node)
+                addValue[way_nodelist[index+1]] = node_distance
 
             # check if last node
             elif index == len(way_nodelist)-1:
-                addValue = way_nodelist[index-1]
+                node_distance = get_node_distance(way_nodelist[index], way_nodelist[index-1], rows_node)
+                addValue[way_nodelist[index-1]] = node_distance
 
             # add both neighbors if not end nodes
             else:
-                 addValue = [way_nodelist[index-1], way_nodelist[index+1]]
+                node_distanceminus = get_node_distance(way_nodelist[index], way_nodelist[index-1], rows_node)
+                node_distanceplus = get_node_distance(way_nodelist[index], way_nodelist[index+1], rows_node)
+                addValueminus[way_nodelist[index-1]] = node_distanceminus
+                addValueplus[way_nodelist[index+1]] = node_distanceplus
+                two_value = 1
 
         # way is oneway
         else:
             # check if not last node
             if index != len(way_nodelist)-1:
                 # get next value since ordered list -> adjacent vertex
-                addValue = way_nodelist[index+1]
+                node_distance = get_node_distance(way_nodelist[index], way_nodelist[index+1], rows_node)
+                addValue[way_nodelist[index+1]] = node_distance
 
         # create new if node does not exist in list yet
-        if node not in adj_list and addValue:
-            adj_list[node] = []
-            adj_list[node].append(addValue)
+        if node not in adj_list:
+            # adj_list[node] = []
+            # adj_list[node].append(addValue)
+            if two_value == 0:
+                add_list = {node: addValue}
+                adj_list.update(add_list)
+            elif two_value == 1:
+                add_list[node] = addValueminus
+                add_list[node].update(addValueplus)
+                adj_list.update(add_list)
 
         else:
-            # checks if addValue is a list for iteration of adjacent nodes
-            if isinstance(addValue, list):
-                for value in addValue:
-                    if value not in adj_list[node]:
-                        adj_list[node].append(value)
+            # check if nodes in addValue is already in the adj_list
+            if two_value == 0:
+                if frozenset(addValue.keys()) not in adj_list[node]:
+                    adj_list[node].update(addValue)
 
-            else:
-                # checks if adj_list[node] is already a list for iteration of nodes
-                if isinstance(adj_list[node], list):
-                    if addValue not in adj_list[node]:
-                        adj_list[node].append(addValue)
-                else:
-                    if addValue != adj_list[node]:
-                        adj_list[node].append(addValue)
+            elif two_value == 1:
+                if frozenset(addValueminus.keys()) not in adj_list[node]:
+                    adj_list[node].update(addValueminus)
+                if frozenset(addValueplus.keys()) not in adj_list[node]:
+                    adj_list[node].update(addValueplus)
+
+#print(get_node_distance('17216409', '2672533803', rows_node))
 
 # converts adjacency list to csv file (horizontal mode)
 with open('mycsvfile.csv', 'w') as f:  # Just use 'w' mode in 3.x
