@@ -140,6 +140,51 @@ class Graph():
     # The main function that calulates distances 
     # of shortest paths from src to all vertices. 
     # It is a O(ELogV) function 
+    def josh(self, stop):
+        A=self.V
+    # A utility function to find the  
+    # vertex with minimum dist value, from 
+    # the set of vertices still in queue 
+    def minDistance(self,dist,queue): 
+        # Initialize min value and min_index as -1 
+        minimum = float("Inf") 
+        min_index = -1
+          
+        # from the dist array,pick one which 
+        # has min value and is till in queue 
+        for i in range(len(dist)): 
+            if dist[i] < minimum and i in queue: 
+                minimum = dist[i] 
+                min_index = i 
+        return min_index 
+  
+  
+        
+
+    # Function to print shortest path 
+    # from source to j 
+    # using parent array 
+    def printPath(self, parent, j): 
+          
+        #Base Case : If j is source 
+        if parent[j] == -1 :  
+            print (j), 
+            return
+        self.printPath(parent , parent[j]) 
+        print (j), 
+          
+  
+    # A utility function to print 
+    # the constructed distance 
+    # array 
+    def printSolution(self, dist, parent): 
+        src = 0
+        print("Vertex \t\tDistance from Source\tPath") 
+        for i in range(1, len(dist)): 
+            print("\n%d --> %d \t\t%d \t\t\t\t\t" % (src, i, dist[i])), 
+            self.printPath(parent,i) 
+  
+  
     def dijkstra(self, src): 
 
         V = self.V # Get the number of vertices in graph 
@@ -211,7 +256,8 @@ graph.addEdge(5, 6, 2)
 graph.addEdge(6, 7, 1) 
 graph.addEdge(6, 8, 6) 
 graph.addEdge(7, 8, 7) 
-a = int(input('Please enter a number from 0 to 8:'))
-graph.dijkstra(a) 
-
+a = int(input('Please enter your source from 0 to 8: '))
+b=int(input('Please enter your destination 0 to 8: ')) 
+graph.josh(b)
+graph.dijkstra(a)
 # This code is contributed by Divyanshu Mehta 
