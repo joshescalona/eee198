@@ -6,6 +6,15 @@ import csv
 import pandas as pd
 from math import sin, cos, sqrt, atan2, radians
 
+def save_object(obj, filename):
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    with open(filename, 'wb') as output:  # Overwrites any existing file.
+        pickle.dump(obj, output, pickle.HIGHEST_PROTOCOL)
+
+# def load_obj(name ):
+#     with open('obj/' + name + '.pkl', 'rb') as f:
+#         return pickle.load(f)
+
 def get_node_distance(node1, node2, nodelist):
     # approximate radius of earth in m
     r_earth = 6373.0*1000      # from kilometers to meters
@@ -149,3 +158,6 @@ with open('mycsvfile.csv', 'w') as f:  # Just use 'w' mode in 3.x
 
 # from horizontal to vertical (transpose of csv file)
 pd.read_csv('mycsvfile.csv', header=None).T.to_csv('adj-list.csv', header=False, index=False)
+
+# save object adj_list
+save_object(adj_list, "adj_list_obj")

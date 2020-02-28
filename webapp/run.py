@@ -17,6 +17,18 @@ def index():
     # Geojson data
     route = os.path.join('map_data', 'route.json')
 
+
+    coordinates = [[14.6549972,121.064311],
+    [14.6549938, 121.0641616],
+    [14.6549909, 121.0640536],
+    [14.6549663, 121.0631421],
+    [14.654955,121.0627244],
+    [14.654945,121.0623539]]
+
+
+    way_sample=folium.PolyLine(locations=coordinates,weight=5,color = 'blue')
+    folium_map.add_children(way_sample)
+
     # Create markers
     folium.Marker([14.6538, 121.0685], tooltip='You are here!').add_to(folium_map),
 
