@@ -26,7 +26,7 @@ def index():
     [14.654945,121.0623539]]
 
 
-    way_sample=folium.PolyLine(locations=coordinates,weight=5,color = 'blue')
+    way_sample=folium.PolyLine(locations=coordinates,weight=5,color = 'red')
     folium_map.add_children(way_sample)
 
     # Create markers

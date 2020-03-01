@@ -16,8 +16,8 @@ def save_object(obj, filename):
 #         return pickle.load(f)
 
 def get_node_distance(node1, node2, nodelist):
-    # approximate radius of earth in m
-    r_earth = 6373.0*1000      # from kilometers to meters
+    # approximate radius of earth in km
+    r_earth = 6373.0
 
     # get latitude and longitude of node from dataset
     breaker = 0
