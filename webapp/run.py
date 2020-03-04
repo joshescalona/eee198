@@ -18,6 +18,7 @@ def index():
     # Geojson data
     route = os.path.join('map_data', 'route.json')
 
+    # output to the map (markers)
     shortest_distance, path = dijkstra('adj_list_obj.pkl', '5449447770', '5383505901')
     coordinates = get_coordinates('nodes_coordinates.pkl', path)
     # path = shortestpath('adj_list_obj.pkl', '5449447770', ['17216409','22352470'], '5383505901')
