@@ -1,5 +1,6 @@
 # this python script creates a list from the extracted data from OSM
 # the list contains adjacent nodes and respective distances between nodes
+# also outputs node coordinate data as object
 
 import pickle
 import os
@@ -166,3 +167,7 @@ save_object(adj_list, "adj_list_obj.pkl")
 # adj_list = load_object("adj_list_obj.pkl")
 # print(adj_list)
 
+# edit the out_node to only get node id and coordinates
+nodes_coordinates = [(x[1], x[5], x[6]) for x in rows_node]
+# save object nodes_coordinates
+save_object(nodes_coordinates, "nodes_coordinates.pkl")
