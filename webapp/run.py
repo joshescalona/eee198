@@ -2,7 +2,7 @@ from flask import Flask, render_template
 import folium
 import os
 import json
-from algorithm_functions import dijkstra, get_coordinates
+from app_functions import dijkstra, get_coordinates
 
 app = Flask(__name__)
 

@@ -9,16 +9,16 @@ def load_object(filename):
     with open(filename, 'rb') as f:
         return pickle.load(f)
 
+
 # get row number of item in 2d List
 def index_2d(myList, v):
     for i, x in enumerate(myList):
         if v in x:
             return i
 
+
 # dijkstra function
 def dijkstra(filename, start, goal):
-    # for matching algorithm, goal = 'driver' -> this will check any node if it is a driver node
-
     # store loaded object to variable
     graph = load_object(filename)
 
@@ -69,6 +69,50 @@ def dijkstra(filename, start, goal):
     if shortest_distance[goal] != infinity:
 
         return shortest_distance[goal], path
+
+
+def searchbased_dijkstra(filename, start, passenger_nodelist):
+    # for matching algorithm, goal = 'passenger_nodelist' -> this will check any node if it is a node with a passenger
+
+    # store loaded object to variable
+    graph = load_object(filename)
+
+    shortest_distance = {}
+    unseenNodes = graph
+    infinity = float('inf')
+    path = []
+    match_node = 0
+
+    # set all node distances to infinity
+    for node in unseenNodes:
+        shortest_distance[node] = infinity
+
+    # set starting point distance to 0
+    shortest_distance[start] = 0
+
+    while unseenNodes:
+        minNode = None
+
+        # check node in graph with shortest distance and start there
+        for node in unseenNodes:
+            if minNode is None:
+                minNode = node
+            elif shortest_distance[node] < shortest_distance[minNode]:
+                minNode = node
+
+        # check if current shortest distance is greater than minNode + weight
+        for childNode, weight in graph[minNode].items():
+            if weight + shortest_distance[minNode] < shortest_distance[childNode]:
+                shortest_distance[childNode] = weight + shortest_distance[minNode]
+
+        unseenNodes.pop(minNode)
+        # end loop if goal node is reached
+        # we dont need to loop through all vertices
+        if minNode in passenger_nodelist:
+            match_node = minNode
+            break
+
+    return match_node
 
 
 def get_coordinates(filename, node_list):
