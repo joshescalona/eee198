@@ -1,6 +1,4 @@
-# this code is an implementation of dijkstra made from scratch to be compatible
-# with the adjacency list created from the OSM map data
-# returns shortest distance and path
+# below are the functions needed for the web application and algorithms.
 
 import pickle
 
@@ -18,6 +16,7 @@ def index_2d(myList, v):
 
 
 # dijkstra function
+# returns shortest distance and path
 def dijkstra(filename, start, goal):
     # store loaded object to variable
     graph = load_object(filename)
@@ -71,13 +70,16 @@ def dijkstra(filename, start, goal):
         return shortest_distance[goal], path
 
 
-def searchbased_dijkstra(filename, start, passenger_nodelist):
+# dijkstra with multiple end nodes and first end node to be popped will be the output
+# returns shortest distance, path, and end node
+def dijkstra_endlist(filename, start, passenger_nodelist):
     # for matching algorithm, goal = 'passenger_nodelist' -> this will check any node if it is a node with a passenger
 
     # store loaded object to variable
     graph = load_object(filename)
 
     shortest_distance = {}
+    predecessor = {}
     unseenNodes = graph
     infinity = float('inf')
     path = []
@@ -104,6 +106,7 @@ def searchbased_dijkstra(filename, start, passenger_nodelist):
         for childNode, weight in graph[minNode].items():
             if weight + shortest_distance[minNode] < shortest_distance[childNode]:
                 shortest_distance[childNode] = weight + shortest_distance[minNode]
+                predecessor[childNode] = minNode
 
         unseenNodes.pop(minNode)
         # end loop if goal node is reached
@@ -112,9 +115,21 @@ def searchbased_dijkstra(filename, start, passenger_nodelist):
             match_node = minNode
             break
 
-    return match_node
+    currentNode = match_node
+    while currentNode != start:
+        try:
+            path.insert(0,currentNode)
+            currentNode = predecessor[currentNode]
+        except KeyError:
+            print('Path not reachable')
+            break
+    path.insert(0,start)
+    if shortest_distance[match_node] != infinity:
+
+        return shortest_distance[match_node], path, match_node
 
 
+# given a list of ndoes, get its corresponding coordinates and return the list
 def get_coordinates(filename, node_list):
     # store loaded object to variable
     coordinates = []
@@ -127,3 +142,22 @@ def get_coordinates(filename, node_list):
     return coordinates
 
 
+# given multiple nodes with a defined start and end, find the shortest path between the nodes and return the path
+def shortestpath(filename, start, intermediate_list, end):
+    nodes_intermediate = intermediate_list
+    path = []
+    output_node = start
+
+    while nodes_intermediate:
+        shortest_distance, temp_path, output_node = dijkstra_endlist(filename, start, nodes_intermediate)
+        path.extend(temp_path)
+        if len(nodes_intermediate) == 0:
+            break
+        nodes_intermediate.remove(output_node)
+
+    shortest_distance, temp_path, output_node = dijkstra_endlist(filename, output_node, end)
+    path.extend(temp_path)
+
+    print(path)
+
+    return path

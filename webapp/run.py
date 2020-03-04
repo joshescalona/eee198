@@ -2,7 +2,7 @@ from flask import Flask, render_template
 import folium
 import os
 import json
-from app_functions import dijkstra, get_coordinates
+from app_functions import dijkstra, get_coordinates, dijkstra_endlist, shortestpath
 
 app = Flask(__name__)
 
@@ -20,14 +20,10 @@ def index():
 
     shortest_distance, path = dijkstra('adj_list_obj.pkl', '5449447770', '5383505901')
     coordinates = get_coordinates('nodes_coordinates.pkl', path)
-
-    # coordinates = [[14.6549972,121.064311],
-    # [14.6549938, 121.0641616],
-    # [14.6549909, 121.0640536],
-    # [14.6549663, 121.0631421],
-    # [14.654955,121.0627244],
-    # [14.654945,121.0623539]]
-
+    # path = shortestpath('adj_list_obj.pkl', '5449447770', ['17216409','22352470'], '5383505901')
+    # shortest_distance, path = dijkstra('adj_list_obj.pkl', '17216409', '22352470')
+    path = shortestpath('adj_list_obj.pkl', '5449447770', ['17216409'], '5383505901')
+    coordinates = get_coordinates('nodes_coordinates.pkl', path)
 
     way_sample=folium.PolyLine(locations=coordinates,weight=5,color = 'red')
     folium_map.add_child(way_sample)
