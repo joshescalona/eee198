@@ -23,17 +23,23 @@ def index():
     coordinates = get_coordinates('nodes_coordinates.pkl', path)
     # path = shortestpath('adj_list_obj.pkl', '5449447770', ['17216409','22352470'], '5383505901')
     # shortest_distance, path = dijkstra('adj_list_obj.pkl', '17216409', '22352470')
-    path = shortestpath('adj_list_obj.pkl', '5449447770', ['17216409'], '5383505901')
+    path = shortestpath('adj_list_obj.pkl', '5449447770', ['22352470'], '5383505901')
     coordinates = get_coordinates('nodes_coordinates.pkl', path)
 
     way_sample=folium.PolyLine(locations=coordinates,weight=5,color = 'red')
     folium_map.add_child(way_sample)
 
     # Create markers
-    folium.Marker(coordinates[0], tooltip='You are here!').add_to(folium_map),
+    passengers = ['22352470','5383505901']
+    for passenger in passengers:
+        index = path.index(passenger)
+        folium.Marker(coordinates[index], tooltip='You are here!').add_to(folium_map),
 
-    folium.Marker(coordinates[-1],
-              tooltip='Driver', icon=car_icon).add_to(folium_map),
+    drivers = ['5449447770']
+    for driver in drivers:
+        index = path.index(driver)
+        folium.Marker(coordinates[index],
+              tooltip='Driver', icon=car_icon).add_to(folium_map)
 
     # # Geojson overlay
     # folium.GeoJson(route, name='route').add_to(folium_map)

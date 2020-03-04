@@ -129,7 +129,7 @@ def dijkstra_endlist(filename, start, passenger_nodelist):
         return shortest_distance[match_node], path, match_node
 
 
-# given a list of ndoes, get its corresponding coordinates and return the list
+# given a list of nodes, get its corresponding coordinates and return the list
 def get_coordinates(filename, node_list):
     # store loaded object to variable
     coordinates = []
