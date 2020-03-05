@@ -1,5 +1,5 @@
 # below are the functions needed for the web application and algorithms.
-
+from pqdict import PQDict
 import pickle
 
 # load adjacency list object
@@ -15,59 +15,156 @@ def index_2d(myList, v):
             return i
 
 
+# # dijkstra function
+# # returns shortest distance and path
+# def dijkstra(filename, start, goal):
+#     # store loaded object to variable
+#     graph = load_object(filename)
+
+#     shortest_distance = {}
+#     predecessor = {}
+#     unseenNodes = graph
+#     infinity = float('inf')
+#     path = []
+
+#     # set all node distances to infinity
+#     for node in unseenNodes:
+#         shortest_distance[node] = infinity
+
+#     # set starting point distance to 0
+#     shortest_distance[start] = 0
+
+#     while unseenNodes:
+#         minNode = None
+
+#         # check node in graph with shortest distance and start there
+#         for node in unseenNodes:
+#             if minNode is None:
+#                 minNode = node
+#             elif shortest_distance[node] < shortest_distance[minNode]:
+#                 minNode = node
+
+#         # check if current shortest distance is greater than minNode + weight
+#         for childNode, weight in graph[minNode].items():
+#             if weight + shortest_distance[minNode] < shortest_distance[childNode]:
+#                 shortest_distance[childNode] = weight + shortest_distance[minNode]
+#                 predecessor[childNode] = minNode
+
+#         unseenNodes.pop(minNode)
+#         # end loop if goal node is reached
+#         # we dont need to loop through all vertices
+#         if minNode == goal:
+#             break
+
+#     currentNode = goal
+#     while currentNode != start:
+#         try:
+#             path.insert(0,currentNode)
+#             currentNode = predecessor[currentNode]
+#         except KeyError:
+#             print('Path not reachable')
+#             break
+#     path.insert(0,start)
+#     if shortest_distance[goal] != infinity:
+#         return shortest_distance[goal], path
+
 # dijkstra function
 # returns shortest distance and path
-def dijkstra(filename, start, goal):
+def dijkstra(filename, start, end):
     # store loaded object to variable
     graph = load_object(filename)
-
-    shortest_distance = {}
-    predecessor = {}
-    unseenNodes = graph
-    infinity = float('inf')
+    inf = float('inf')
+    shortest_distances = {start: 0}                 # mapping of nodes to their dist from start
+    queue_sd = PQDict(shortest_distances)           # priority queue for tracking min shortest path
+    predecessors = {}                               # mapping of nodes to their direct predecessors
+    unexplored = set(graph.keys())                  # unexplored nodes
     path = []
 
-    # set all node distances to infinity
-    for node in unseenNodes:
-        shortest_distance[node] = infinity
+    while unexplored:                                           # nodes yet to explore
+        (minNode, minDistance) = queue_sd.popitem()             # node w/ min dist d on frontier
+        shortest_distances[minNode] = minDistance               # est dijkstra greedy score
+        unexplored.remove(minNode)                              # remove from unexplored
+        if minNode == end: break                                # end if goal already reached
 
-    # set starting point distance to 0
-    shortest_distance[start] = 0
+        # now consider the edges from minNode with an unexplored head -
+        # we may need to update the dist of unexplored successors
+        for neighbor in graph[minNode]:                               # successors to v
+            if neighbor in unexplored:                          # then neighbor is a frontier node
+                minDistance = shortest_distances[minNode] + graph[minNode][neighbor]
+                if minDistance < queue_sd.get(neighbor, inf):
+                    queue_sd[neighbor] = minDistance
+                    predecessors[neighbor] = minNode                   # set/update predecessor
 
-    while unseenNodes:
-        minNode = None
-
-        # check node in graph with shortest distance and start there
-        for node in unseenNodes:
-            if minNode is None:
-                minNode = node
-            elif shortest_distance[node] < shortest_distance[minNode]:
-                minNode = node
-
-        # check if current shortest distance is greater than minNode + weight
-        for childNode, weight in graph[minNode].items():
-            if weight + shortest_distance[minNode] < shortest_distance[childNode]:
-                shortest_distance[childNode] = weight + shortest_distance[minNode]
-                predecessor[childNode] = minNode
-
-        unseenNodes.pop(minNode)
-        # end loop if goal node is reached
-        # we dont need to loop through all vertices
-        if minNode == goal:
-            break
-
-    currentNode = goal
+    currentNode = end
     while currentNode != start:
         try:
             path.insert(0,currentNode)
-            currentNode = predecessor[currentNode]
+            currentNode = predecessors[currentNode]
         except KeyError:
             print('Path not reachable')
             break
     path.insert(0,start)
-    if shortest_distance[goal] != infinity:
+    if shortest_distances[end] != inf:
+        return shortest_distances[end], path
 
-        return shortest_distance[goal], path
+
+# # dijkstra with multiple end nodes and first end node to be popped will be the output
+# # returns shortest distance, path, and end node
+# def dijkstra_endlist(filename, start, passenger_nodelist):
+#     # for matching algorithm, goal = 'passenger_nodelist' -> this will check any node if it is a node with a passenger
+
+#     # store loaded object to variable
+#     graph = load_object(filename)
+
+#     shortest_distance = {}
+#     predecessor = {}
+#     unseenNodes = graph
+#     infinity = float('inf')
+#     path = []
+#     match_node = 0
+
+#     # set all node distances to infinity
+#     for node in unseenNodes:
+#         shortest_distance[node] = infinity
+
+#     # set starting point distance to 0
+#     shortest_distance[start] = 0
+
+#     while unseenNodes:
+#         minNode = None
+
+#         # check node in graph with shortest distance and start there
+#         for node in unseenNodes:
+#             if minNode is None:
+#                 minNode = node
+#             elif shortest_distance[node] < shortest_distance[minNode]:
+#                 minNode = node
+
+#         # check if current shortest distance is greater than minNode + weight
+#         for childNode, weight in graph[minNode].items():
+#             if weight + shortest_distance[minNode] < shortest_distance[childNode]:
+#                 shortest_distance[childNode] = weight + shortest_distance[minNode]
+#                 predecessor[childNode] = minNode
+
+#         unseenNodes.pop(minNode)
+#         # end loop if goal node is reached
+#         # we dont need to loop through all vertices
+#         if minNode in passenger_nodelist:
+#             match_node = minNode
+#             break
+
+#     currentNode = match_node
+#     while currentNode != start:
+#         try:
+#             path.insert(0,currentNode)
+#             currentNode = predecessor[currentNode]
+#         except KeyError:
+#             print('Path not reachable')
+#             break
+#     path.insert(0,start)
+#     if shortest_distance[match_node] != infinity:
+
+#         return shortest_distance[match_node], path, match_node
 
 
 # dijkstra with multiple end nodes and first end node to be popped will be the output
@@ -77,57 +174,41 @@ def dijkstra_endlist(filename, start, passenger_nodelist):
 
     # store loaded object to variable
     graph = load_object(filename)
-
-    shortest_distance = {}
-    predecessor = {}
-    unseenNodes = graph
-    infinity = float('inf')
+    inf = float('inf')
+    shortest_distances = {start: 0}                 # mapping of nodes to their dist from start
+    queue_sd = PQDict(shortest_distances)           # priority queue for tracking min shortest path
+    predecessors = {}                               # mapping of nodes to their direct predecessors
+    unexplored = set(graph.keys())                  # unexplored nodes
     path = []
-    match_node = 0
 
-    # set all node distances to infinity
-    for node in unseenNodes:
-        shortest_distance[node] = infinity
-
-    # set starting point distance to 0
-    shortest_distance[start] = 0
-
-    while unseenNodes:
-        minNode = None
-
-        # check node in graph with shortest distance and start there
-        for node in unseenNodes:
-            if minNode is None:
-                minNode = node
-            elif shortest_distance[node] < shortest_distance[minNode]:
-                minNode = node
-
-        # check if current shortest distance is greater than minNode + weight
-        for childNode, weight in graph[minNode].items():
-            if weight + shortest_distance[minNode] < shortest_distance[childNode]:
-                shortest_distance[childNode] = weight + shortest_distance[minNode]
-                predecessor[childNode] = minNode
-
-        unseenNodes.pop(minNode)
-        # end loop if goal node is reached
-        # we dont need to loop through all vertices
+    while unexplored:                                           # nodes yet to explore
+        (minNode, minDistance) = queue_sd.popitem()             # node w/ min dist d on frontier
+        shortest_distances[minNode] = minDistance               # est dijkstra greedy score
+        unexplored.remove(minNode)                              # remove from unexplored
         if minNode in passenger_nodelist:
-            match_node = minNode
-            break
+             match_node = minNode
+             break                                              # end if goal already reached
+
+        # now consider the edges from minNode with an unexplored head -
+        # we may need to update the dist of unexplored successors
+        for neighbor in graph[minNode]:                               # successors to v
+            if neighbor in unexplored:                          # then neighbor is a frontier node
+                minDistance = shortest_distances[minNode] + graph[minNode][neighbor]
+                if minDistance < queue_sd.get(neighbor, inf):
+                    queue_sd[neighbor] = minDistance
+                    predecessors[neighbor] = minNode                   # set/update predecessor
 
     currentNode = match_node
     while currentNode != start:
         try:
             path.insert(0,currentNode)
-            currentNode = predecessor[currentNode]
+            currentNode = predecessors[currentNode]
         except KeyError:
             print('Path not reachable')
             break
     path.insert(0,start)
-    if shortest_distance[match_node] != infinity:
-
-        return shortest_distance[match_node], path, match_node
-
+    if shortest_distances[match_node] != inf:
+        return shortest_distances[match_node], path, match_node
 
 # given a list of nodes, get its corresponding coordinates and return the list
 def get_coordinates(filename, node_list):
