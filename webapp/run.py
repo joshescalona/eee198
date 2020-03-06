@@ -21,7 +21,7 @@ def index():
     # output to the map (markers)
     shortest_distance, path = dijkstra('adj_list_obj.pkl', '5449447770', '5383505901')
     coordinates = get_coordinates('nodes_coordinates.pkl', path)
-    path = shortestpath('adj_list_obj.pkl', '5449447770', ['17216409','22352470'], '5383505901')
+    path = shortestpath('adj_list_obj.pkl', '22352470', ['17216409','5449447770'], '5383505901')
     # shortest_distance, path = dijkstra('adj_list_obj.pkl', '17216409', '22352470')
     # path = shortestpath('adj_list_obj.pkl', '5449447770', ['22352470'], '5383505901')
     coordinates = get_coordinates('nodes_coordinates.pkl', path)
@@ -30,12 +30,12 @@ def index():
     folium_map.add_child(way_sample)
 
     # Create markers
-    passengers = ['22352470','5383505901']
+    passengers = ['17216409','5449447770','5383505901']
     for passenger in passengers:
         index = path.index(passenger)
         folium.Marker(coordinates[index], tooltip='You are here!').add_to(folium_map),
 
-    drivers = ['5449447770']
+    drivers = ['22352470']
     for driver in drivers:
         index = path.index(driver)
         folium.Marker(coordinates[index],
