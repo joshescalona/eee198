@@ -130,6 +130,9 @@ def shortestpath(filename, start, intermediate_list, end):
     shortest_distance, temp_path, output_node = dijkstra_endlist(filename, output_node, end)
     path.extend(temp_path)
 
-    print(path)
-
     return path
+
+def searchbasedRS(driver_nodelist, passenger_nodelist, destination_list):
+
+# find match, find driver, compute shortest path, check SRP
+# return matched passengers, path, and price
