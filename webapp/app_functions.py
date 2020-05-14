@@ -118,21 +118,34 @@ def shortestpath(filename, start, intermediate_list, end):
     start_node = start
     # incase there are no intermediate nodes
     output_node = start
+    total_distance = 0
+
+    print('\n\nStart node:')
+    print(start)
+    print('\nIntermediate nodes:')
+    print(intermediate_list)
+    print('\nEnd node: ')
+    print(end)
 
     while nodes_intermediate:
         shortest_distance, temp_path, output_node = dijkstra_endlist(filename, start_node, nodes_intermediate)
         path.extend(temp_path)
-        if len(nodes_intermediate) == 0:
-            break
+        # if len(nodes_intermediate) == 0:
+        #     break
         nodes_intermediate.remove(output_node)
         start_node = output_node
+        total_distance = total_distance + shortest_distance
 
     shortest_distance, temp_path, output_node = dijkstra_endlist(filename, output_node, end)
     path.extend(temp_path)
+    total_distance = total_distance + shortest_distance
 
-    return path
+    print('\nPath taken:')
+    print(path)
+    print('\nRoute length: ' + str(total_distance) + 'km\n')
+    return path, total_distance
 
-def searchbasedRS(driver_nodelist, passenger_nodelist, destination_list):
+# def searchbasedRS(driver_nodelist, passenger_nodelist, destination_list):
 
 # find match, find driver, compute shortest path, check SRP
 # return matched passengers, path, and price
