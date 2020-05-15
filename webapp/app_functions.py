@@ -1,6 +1,9 @@
 # below are the functions needed for the web application and algorithms.
 from pqdict import PQDict
 import pickle
+import multiprocessing
+import sys
+
 
 # load adjacency list object
 def load_object(filename):
@@ -111,8 +114,8 @@ def get_coordinates(filename, node_list):
     return coordinates
 
 
-# given multiple nodes with a defined start and end, find the shortest path between the nodes and return the path
-def shortestpath(filename, start, intermediate_list, end):
+# given multiple nodes with a defined start, find the shortest path between the nodes and return the path, distance, and end node
+def shortestpath(filename, start, intermediate_list):
     nodes_intermediate = intermediate_list
     path = []
     start_node = start
@@ -120,12 +123,10 @@ def shortestpath(filename, start, intermediate_list, end):
     output_node = start
     total_distance = 0
 
-    print('\n\nStart node:')
-    print(start)
-    print('\nIntermediate nodes:')
-    print(intermediate_list)
-    print('\nEnd node: ')
-    print(end)
+    # print('\n\nStart node:')
+    # print(start)
+    # print('\nIntermediate nodes:')
+    # print(intermediate_list)
 
     while nodes_intermediate:
         shortest_distance, temp_path, output_node = dijkstra_endlist(filename, start_node, nodes_intermediate)
@@ -136,16 +137,120 @@ def shortestpath(filename, start, intermediate_list, end):
         start_node = output_node
         total_distance = total_distance + shortest_distance
 
-    shortest_distance, temp_path, output_node = dijkstra_endlist(filename, output_node, end)
-    path.extend(temp_path)
-    total_distance = total_distance + shortest_distance
+    # print('\nEnd node: ')
+    # print(output_node)
+    # shortest_distance, temp_path, output_node = dijkstra_endlist(filename, output_node, end)
+    # path.extend(temp_path)
+    # total_distance = total_distance + shortest_distance
 
-    print('\nPath taken:')
-    print(path)
-    print('\nRoute length: ' + str(total_distance) + 'km\n')
-    return path, total_distance
+    # print('\nPath taken:')
+    # print(path)
+    # print('\nRoute length: ' + str(total_distance) + 'km\n')
+    return path, total_distance, output_node
 
-# def searchbasedRS(driver_nodelist, passenger_nodelist, destination_list):
+# dijkstra based method from source
+def searchbasedRS_source(filename, passenger_source, passenger_others, destination_others, return_dict):
+    shortest_distance, temp_path, passenger_match = dijkstra_endlist(filename, passenger_source, passenger_others)
+    index = passenger_others.index(passenger_match)
+    destination_match = destination_others[index]
+    return_dict[1] = passenger_match
+    return_dict[2] = destination_match
 
-# find match, find driver, compute shortest path, check SRP
-# return matched passengers, path, and price
+# dijkstra based method from destinations
+def searchbasedRS_destination(filename, passenger_others, destination_source, destination_others, return_dict):
+    shortest_distance, temp_path, destination_match = dijkstra_endlist(filename, destination_source, destination_others)
+    index = destination_others.index(destination_match)
+    passenger_match = passenger_others[index]
+    return_dict[1] = passenger_match
+    return_dict[2] = destination_match
+
+# this algorithm assumes the first item in passenger_nodelist and destination_list is the source
+def searchbasedRS(filename, driver_nodelist, passenger_nodelist, destination_list, srp_min):
+    srp = 0
+    passenger_source = passenger_nodelist[0]
+    passenger_others = passenger_nodelist
+    passenger_others.pop(0)
+    destination_source = destination_list[0]
+    destination_others = destination_list
+    destination_others.pop(0)
+    drivers = driver_nodelist
+
+    # starting the multiprocess for dijkstra on both source and destination
+    manager = multiprocessing.Manager()
+    # initializing a shared variable
+    return_dict = manager.dict()
+
+    # loop while srp requirement not met
+    while srp < srp_min:
+        # end if there are no other passengers
+        if not passenger_others:
+            break
+
+        # start the two processes
+        source_process = multiprocessing.Process(target = searchbasedRS_source, args=(filename, passenger_source, passenger_others, destination_others, return_dict))
+        source_process.start()
+        destination_process = multiprocessing.Process(target = searchbasedRS_destination, args=(filename, passenger_others, destination_source, destination_others, return_dict))
+        destination_process.start()
+
+        # end the other process if match is found on a process
+        while True:
+            if source_process.is_alive() == 0:
+                print('\nMatch found from source!')
+                destination_process.terminate()
+                break
+            if destination_process.is_alive() == 0:
+                print('\nMatch found from destination!')
+                source_process.terminate()
+                break
+
+        # assign the matched passenger source and destination
+        passenger_match = return_dict[1]
+        destination_match = return_dict[2]
+
+        # finding closest driver
+        shortest_distance, temp_path, driver_match = dijkstra_endlist(filename, passenger_source, driver_nodelist)
+
+        # find shortest path from driver to all sources
+        sources = []
+        sources.extend((passenger_source, passenger_match))
+        path, route_distance, end_node = shortestpath(filename, driver_match, sources)
+        sources.extend((passenger_source, passenger_match))             # need to reassign sources because it gets erased after the line above(?)
+
+        # find shortest path from end node in sources to destinations
+        destinations = []
+        destinations.extend((destination_source, destination_match))
+        path_destination, route_distance_destination, end_node = shortestpath(filename, end_node, destinations)
+        path_destination.pop(0)     #removing first item since duplicate in last item from path
+        destinations.extend((destination_source, destination_match))
+
+        # getting total path and total route distance
+        path.extend(path_destination)
+        route_distance = route_distance + route_distance_destination
+
+        # getting path and path distance if no ride sharing occured for SRP computation
+        source_passenger = [passenger_source, destination_source]
+        withoutrs_distance, temp_path = dijkstra(filename, driver_match, passenger_source)
+        withoutrs_distance_2, temp_path = dijkstra(filename, passenger_source, destination_source)
+        withoutrs_distance = withoutrs_distance + withoutrs_distance_2
+
+        # removes other passengers if done
+        passenger_others.remove(passenger_match)
+        destination_others.remove(destination_match)
+        srp = withoutrs_distance/route_distance
+
+        print('\nMatched passengers:')
+        print(sources)
+        print('\nAssigned driver:')
+        print(driver_match)
+        print('\nPath taken:')
+        print(path)
+        print('\nRoute length: ' + str(route_distance) + 'km')
+        print('\nRoute length without ride sharing: ' + str(withoutrs_distance) + 'km')
+        print('\nSRP:' + str(srp) + '\n')
+
+    if srp < srp_min:
+        print('\nCannot find you a match at this time!\n')
+        return None, None, None, None
+
+    else:
+        return sources, destinations, path, route_distance

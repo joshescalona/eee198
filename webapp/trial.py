@@ -1,28 +1,29 @@
 import multiprocessing
 import sys
 
-rocket = 0
-
-def func1():
-    global rocket
+def func1(test,rocket, return_dict):
     print('start func1')
-    while rocket < 999999:
+    print(test)
+    while rocket < 999999999:
         rocket +=1
-    return_dict[1] = 'end_func1'
+    return_dict[1] = 12345
+    return_dict[2] = 1234
 
-def func2():
-    global rocket
+def func2(rocket, return_dict):
     print('start func2')
-    while rocket < 9999999:
+    while rocket < 99999999:
         rocket +=1
-    return_dict[1] = 'end_func2'
+    return_dict[1] = 123456
+    return_dict[2] = 321
 
-if __name__ == '__main__':
+def main():
     manager = multiprocessing.Manager()
     return_dict = manager.dict()
-    p1 = multiprocessing.Process(target = func1)
+    rocket = 0
+    test = 1
+    p1 = multiprocessing.Process(target = func1, args=(test, rocket, return_dict))
     p1.start()
-    p2 = multiprocessing.Process(target = func2)
+    p2 = multiprocessing.Process(target = func2, args=(rocket, return_dict))
     p2.start()
 
     while True:
@@ -36,4 +37,7 @@ if __name__ == '__main__':
             break
 
     print(return_dict[1])
+    print(return_dict[2])
     print('Hello')
+
+main()
