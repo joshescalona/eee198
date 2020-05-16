@@ -106,7 +106,7 @@ node_handler.apply_file("up-diliman.osm")
 data_colnames = ['type', 'id', 'ntags', 'tagkey', 'tagvalue','lat','lon']
 df_osm = pd.DataFrame(node_handler.osm_data, columns=data_colnames)
 #convert pandas DataFrame to .csv file
-df_osm.to_csv('out_node2.csv', encoding='utf-8', index=False)
+df_osm.to_csv('out_node.csv', encoding='utf-8', index=False)
 
 #get all the way data and information needed
 way_handler = wayHandler()
@@ -117,7 +117,7 @@ way_handler.apply_file("up-diliman.osm")
 data_colnames = ['type', 'id', 'ntags', 'tagkey', 'tagvalue', 'nodes']
 df_osm = pd.DataFrame(way_handler.osm_data, columns=data_colnames)
 #convert pandas DataFrame to .csv file
-df_osm.to_csv('out_way2.csv', encoding='utf-8', index=False)
+df_osm.to_csv('out_way.csv', encoding='utf-8', index=False)
 
 
 
