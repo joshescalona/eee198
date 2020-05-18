@@ -2,7 +2,7 @@ from flask import Flask, render_template
 import folium
 import os
 import json
-from app_functions import dijkstra, get_coordinates, dijkstra_endlist, shortestpath, searchbasedRS
+from app_functions import dijkstra, get_coordinates, dijkstra_endlist, shortestpath, searchbasedRS, get_largest_angle
 
 app = Flask(__name__)
 
@@ -37,6 +37,8 @@ def index():
     source_coordinates = get_coordinates('nodes_coordinates.pkl', source_nodes)
     folium.Marker(source_coordinates[0], tooltip='Source', icon=folium.Icon(color='blue', icon='chevron-up')).add_to(folium_map),
     folium.Marker(source_coordinates[1], tooltip='Destination', icon=folium.Icon(color='blue', icon='chevron-down')).add_to(folium_map),
+
+    print(get_largest_angle(driver_coordinates[1], source_coordinates))
 
     # add additional markers and path if match/es found
     if sources != None:
