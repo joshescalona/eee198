@@ -308,7 +308,7 @@ def get_largest_angle(center, peripheral):
     return max_angle           #in degrees
 
 # this function is the implementation of the GrabShare algorithm
-def grab_share(filename, driver_nodelist, passenger_nodelist, destination_list, angle_min):
+def grab_share(filename, driver_nodelist, passenger_nodelist, destination_list, angle_max):
     passenger_source = passenger_nodelist[0]
     passenger_others = passenger_nodelist.copy()
     passenger_others.pop(0)
@@ -341,7 +341,7 @@ def grab_share(filename, driver_nodelist, passenger_nodelist, destination_list, 
             peripheral_coordinates = get_coordinates('nodes_coordinates.pkl', peripheral)
             angle = get_largest_angle(center_coordinates[0], peripheral_coordinates)
             j += 1
-        if angle <= angle_min:
+        if angle <= angle_max:
             break
 
         peripheral.clear()
@@ -349,25 +349,23 @@ def grab_share(filename, driver_nodelist, passenger_nodelist, destination_list, 
 
     # look for 2 matches
     i = 0
-    if angle > angle_min:
+    if angle > angle_max:
         while i < len(passenger_others):
             peripheral.extend([passenger_others[i], destination_others[i]])
             peripheral.append(destination_source)
-            print(peripheral)
             peripheral_coordinates = get_coordinates('nodes_coordinates.pkl', peripheral)
             angle = get_largest_angle(center_coordinates[0], peripheral_coordinates)
-            if angle <= angle_min:
+            if angle <= angle_max:
                 break
             peripheral.clear()
             i += 1
 
-    if angle > angle_min:
+    if angle > angle_max:
         print('\nCannot find you a match at this time!\n')
         return None, None, None, None
 
     else:
         # assign the matched passenger sources and destinations
-        print(peripheral)
         if len(peripheral) == 3:    # 1 match only
             sources.extend([peripheral[0]])
             destinations.extend([peripheral[1]])
@@ -376,8 +374,6 @@ def grab_share(filename, driver_nodelist, passenger_nodelist, destination_list, 
             sources.extend([peripheral[0], peripheral[2]])
             destinations.extend([peripheral[1], peripheral[3]])
 
-        print(sources)
-        print(destinations)
         # finding closest driver
         shortest_distance, temp_path, driver_match = dijkstra_endlist(filename, passenger_source, driver_nodelist)
 
@@ -398,8 +394,6 @@ def grab_share(filename, driver_nodelist, passenger_nodelist, destination_list, 
             withoutrs_distance_2, temp_path = dijkstra(filename, sources[i], end_node)          # distance calculated is until the end of total shared distance
             withoutrs_distance = withoutrs_distance + withoutrs_distance_2
             srp = withoutrs_distance/route_distance
-            print(withoutrs_distance)
-            print(srp)
             srp_list.append(srp)
 
         print('\nMatched passengers:')

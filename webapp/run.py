@@ -27,12 +27,14 @@ def index():
     # sources, destinations, path, route_distance = searchbasedRS('adj_list_obj.pkl', drivers, passengers, passenger_destinations, 0.8)
     # end_time = time.perf_counter()
     # print('\nSearch-BasedRS time elapsed (seconds): ' + str(end_time - start_time) + '\n')
+    # ------------------------------------------------
 
-    # grab algorithm implementation -------------------
+    # # grab algorithm implementation ------------------
     start_time = time.perf_counter()
     sources, destinations, path, route_distance = grab_share('adj_list_obj.pkl', drivers, passengers, passenger_destinations, 121)
     end_time = time.perf_counter()
     print('\nGrabShare Algorithm time elapsed (seconds): ' + str(end_time - start_time) + '\n')
+    # # ------------------------------------------------
 
     driver_coordinates = get_coordinates('nodes_coordinates.pkl', drivers)
     for driver_coordinate in driver_coordinates:
