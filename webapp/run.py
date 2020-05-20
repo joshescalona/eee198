@@ -3,7 +3,7 @@ import folium
 import os
 import json
 import time
-from app_functions import dijkstra, get_coordinates, dijkstra_endlist, shortestpath, searchbasedRS, get_largest_angle
+from app_functions import dijkstra, get_coordinates, dijkstra_endlist, shortestpath, searchbasedRS, grab_share, get_largest_angle
 
 app = Flask(__name__)
 
@@ -22,12 +22,17 @@ def index():
     # passenger_destinations = ['17216442','30763515']
     drivers = ['30763220','1402297896','5499240548']
 
-    # output to the map (markers)
-    # path, route_distance, end_node = shortestpath('adj_list_obj.pkl', '22352470', ['17216409','5449447770','26082653'])
+    # searchbased-rs implementation ------------------
+    # start_time = time.perf_counter()
+    # sources, destinations, path, route_distance = searchbasedRS('adj_list_obj.pkl', drivers, passengers, passenger_destinations, 0.8)
+    # end_time = time.perf_counter()
+    # print('\nSearch-BasedRS time elapsed (seconds): ' + str(end_time - start_time) + '\n')
+
+    # grab algorithm implementation -------------------
     start_time = time.perf_counter()
-    sources, destinations, path, route_distance = searchbasedRS('adj_list_obj.pkl', drivers, passengers, passenger_destinations, 0.4)
+    sources, destinations, path, route_distance = grab_share('adj_list_obj.pkl', drivers, passengers, passenger_destinations, 121)
     end_time = time.perf_counter()
-    print('\nSearch-BasedRS time elapsed (seconds): ' + str(end_time - start_time))
+    print('\nGrabShare Algorithm time elapsed (seconds): ' + str(end_time - start_time) + '\n')
 
     driver_coordinates = get_coordinates('nodes_coordinates.pkl', drivers)
     for driver_coordinate in driver_coordinates:
@@ -42,7 +47,7 @@ def index():
     folium.Marker(source_coordinates[0], tooltip='Source', icon=folium.Icon(color='blue', icon='chevron-up')).add_to(folium_map),
     folium.Marker(source_coordinates[1], tooltip='Destination', icon=folium.Icon(color='blue', icon='chevron-down')).add_to(folium_map),
 
-    print('\nLargest angle (degrees): ' + str(get_largest_angle(driver_coordinates[1], source_coordinates)))
+    # print('\nLargest angle (degrees): ' + str(get_largest_angle(driver_coordinates[1], source_coordinates)))
 
     # add additional markers and path if match/es found
     if sources != None:

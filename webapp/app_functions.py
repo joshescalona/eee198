@@ -188,12 +188,8 @@ def searchbasedRS(filename, driver_nodelist, passenger_nodelist, destination_lis
         viable_match = 0
         if not passenger_others or not destination_others:
                 break
-        srp_list = []
+        srp_list_temp = []
         while not viable_match:
-            # end if there are no other passengers
-            if not passenger_others or not destination_others:
-                break
-
             # start the two processes
             source_process = multiprocessing.Process(target = searchbasedRS_source, args=(filename, passenger_source, passenger_others, destination_others, return_dict))
             source_process.start()
@@ -211,8 +207,6 @@ def searchbasedRS(filename, driver_nodelist, passenger_nodelist, destination_lis
                     source_process.terminate()
                     break
 
-            # make this a separate function ------------------
-
             # assign the matched passenger source and destination
             passenger_match = return_dict[1]
             destination_match = return_dict[2]
@@ -222,7 +216,7 @@ def searchbasedRS(filename, driver_nodelist, passenger_nodelist, destination_lis
 
             # find shortest path from driver to all sources
             sources.append(passenger_match)
-            path, route_distance, end_node = shortestpath(filename, driver_match, sources)
+            path_temp, route_distance, end_node = shortestpath(filename, driver_match, sources)
 
             # find shortest path from end node in sources to destinations
             destinations.append(destination_match)
@@ -230,32 +224,39 @@ def searchbasedRS(filename, driver_nodelist, passenger_nodelist, destination_lis
             path_destination.pop(0)     #removing first item since duplicate in last item from path
 
             # getting total path and total route distance
-            path.extend(path_destination)
+            path_temp.extend(path_destination)
             route_distance = route_distance + route_distance_destination
 
             # getting path and path distance if no ride sharing occured for all passengers for SRP computation
             for i in range(len(sources)):
                 withoutrs_distance, temp_path = dijkstra(filename, driver_match, sources[i])
-                withoutrs_distance_2, temp_path = dijkstra(filename, sources[i], destinations[len(sources)-1])          # distance calculated is until the end of total shared distance
+                withoutrs_distance_2, temp_path = dijkstra(filename, sources[i], end_node)          # distance calculated is until the end of total shared distance
                 withoutrs_distance = withoutrs_distance + withoutrs_distance_2
                 srp = withoutrs_distance/route_distance
-                srp_list.append(srp)
+                srp_list_temp.append(srp)
 
-            # ---------------------------------------
             # removes other passengers if done
             passenger_others.remove(passenger_match)
             destination_others.remove(destination_match)
 
             viable_match = 1
             i = 0
-            while i < len(srp_list):
-                if srp_list[i] < srp_min:
+            while i < len(srp_list_temp):
+                if srp_list_temp[i] < srp_min:
                     viable_match = 0
                     # pop the latest and find another match
-                    sources.pop(len(srp_list)-1)
-                    destinations.pop(len(srp_list)-1)
-                    srp_list.pop(len(srp_list)-1)
+                    sources.pop(len(srp_list_temp)-1)
+                    destinations.pop(len(srp_list_temp)-1)
+                    srp_list_temp.clear()
+                    path_temp.clear()
                 i += 1
+            if path_temp:
+                path = path_temp.copy()
+                srp_list = srp_list_temp.copy()
+
+            # end if there are no other passengers
+            if not passenger_others or not destination_others:
+                break
 
     if len(sources) == 1:
         print('\nCannot find you a match at this time!\n')
@@ -271,9 +272,10 @@ def searchbasedRS(filename, driver_nodelist, passenger_nodelist, destination_lis
         print('\nPath taken:')
         print(path)
         print('\nRoute length: ' + str(route_distance) + 'km')
-        print('\nSRPs:' + str(srp_list) + '\n')
+        print('\nSRPs:' + str(srp_list))
         return sources, destinations, path, route_distance
 
+# this function gets the largest angle that includes all the nodes given a center and peripheral nodes
 def get_largest_angle(center, peripheral):
     peripheral_radius = [complex(z[0]-center[0], z[1]-center[1]) for z in peripheral]
     peripheral_angle = [cmath.phase(z) for z in peripheral_radius]                     #in radians [-pi to pi]
@@ -304,3 +306,113 @@ def get_largest_angle(center, peripheral):
     max_angle = 360 - max(diff_adjacent)
 
     return max_angle           #in degrees
+
+# this function is the implementation of the GrabShare algorithm
+def grab_share(filename, driver_nodelist, passenger_nodelist, destination_list, angle_min):
+    passenger_source = passenger_nodelist[0]
+    passenger_others = passenger_nodelist.copy()
+    passenger_others.pop(0)
+    destination_source = destination_list[0]
+    destination_others = destination_list.copy()
+    destination_others.pop(0)
+    drivers = driver_nodelist.copy()
+
+    sources = [passenger_source]
+    destinations = [destination_source]
+
+    # for matching with angle
+    center = [passenger_source]
+    center_coordinates = get_coordinates('nodes_coordinates.pkl', center)
+    peripheral = []
+    srp_list = []
+
+    # look for 3 matches first
+    i = 0
+    angle = 360
+
+    while i < len(passenger_others):
+        j = 0
+        while j < len(passenger_others):
+            if i == j:
+                j += 1
+                continue
+            peripheral.extend([passenger_others[i], destination_others[i], passenger_others[j], destination_others[j]])
+            peripheral.append(destination_source)
+            peripheral_coordinates = get_coordinates('nodes_coordinates.pkl', peripheral)
+            angle = get_largest_angle(center_coordinates[0], peripheral_coordinates)
+            j += 1
+        if angle <= angle_min:
+            break
+
+        peripheral.clear()
+        i += 1
+
+    # look for 2 matches
+    i = 0
+    if angle > angle_min:
+        while i < len(passenger_others):
+            peripheral.extend([passenger_others[i], destination_others[i]])
+            peripheral.append(destination_source)
+            print(peripheral)
+            peripheral_coordinates = get_coordinates('nodes_coordinates.pkl', peripheral)
+            angle = get_largest_angle(center_coordinates[0], peripheral_coordinates)
+            if angle <= angle_min:
+                break
+            peripheral.clear()
+            i += 1
+
+    if angle > angle_min:
+        print('\nCannot find you a match at this time!\n')
+        return None, None, None, None
+
+    else:
+        # assign the matched passenger sources and destinations
+        print(peripheral)
+        if len(peripheral) == 3:    # 1 match only
+            sources.extend([peripheral[0]])
+            destinations.extend([peripheral[1]])
+
+        if len(peripheral) == 5:    # 2 matches only
+            sources.extend([peripheral[0], peripheral[2]])
+            destinations.extend([peripheral[1], peripheral[3]])
+
+        print(sources)
+        print(destinations)
+        # finding closest driver
+        shortest_distance, temp_path, driver_match = dijkstra_endlist(filename, passenger_source, driver_nodelist)
+
+        # find shortest path from driver to all sources
+        path, route_distance, end_node = shortestpath(filename, driver_match, sources)
+
+        # find shortest path from end node in sources to destinations
+        path_destination, route_distance_destination, end_node = shortestpath(filename, end_node, destinations)
+        path_destination.pop(0)     #removing first item since duplicate in last item from path
+
+        # getting total path and total route distance
+        path.extend(path_destination)
+        route_distance = route_distance + route_distance_destination
+
+        # getting path and path distance if no ride sharing occured for all passengers for SRP computation
+        for i in range(len(sources)):
+            withoutrs_distance, temp_path = dijkstra(filename, driver_match, sources[i])
+            withoutrs_distance_2, temp_path = dijkstra(filename, sources[i], end_node)          # distance calculated is until the end of total shared distance
+            withoutrs_distance = withoutrs_distance + withoutrs_distance_2
+            srp = withoutrs_distance/route_distance
+            print(withoutrs_distance)
+            print(srp)
+            srp_list.append(srp)
+
+        print('\nMatched passengers:')
+        print(sources)
+        print('\nCorresponding destinations:')
+        print(destinations)
+        print('\nAssigned driver:')
+        print(driver_match)
+        print('\nPath taken:')
+        print(path)
+        print('\nRoute length: ' + str(route_distance) + 'km')
+        print('\nSRPs:' + str(srp_list))
+        print('\nAngle: ' + str(angle))
+        return sources, destinations, path, route_distance
+
+
