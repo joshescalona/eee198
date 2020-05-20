@@ -211,6 +211,8 @@ def searchbasedRS(filename, driver_nodelist, passenger_nodelist, destination_lis
                     source_process.terminate()
                     break
 
+            # make this a separate function ------------------
+
             # assign the matched passenger source and destination
             passenger_match = return_dict[1]
             destination_match = return_dict[2]
@@ -239,6 +241,7 @@ def searchbasedRS(filename, driver_nodelist, passenger_nodelist, destination_lis
                 srp = withoutrs_distance/route_distance
                 srp_list.append(srp)
 
+            # ---------------------------------------
             # removes other passengers if done
             passenger_others.remove(passenger_match)
             destination_others.remove(destination_match)

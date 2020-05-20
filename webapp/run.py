@@ -2,6 +2,7 @@ from flask import Flask, render_template
 import folium
 import os
 import json
+import time
 from app_functions import dijkstra, get_coordinates, dijkstra_endlist, shortestpath, searchbasedRS, get_largest_angle
 
 app = Flask(__name__)
@@ -23,7 +24,10 @@ def index():
 
     # output to the map (markers)
     # path, route_distance, end_node = shortestpath('adj_list_obj.pkl', '22352470', ['17216409','5449447770','26082653'])
+    start_time = time.perf_counter()
     sources, destinations, path, route_distance = searchbasedRS('adj_list_obj.pkl', drivers, passengers, passenger_destinations, 0.4)
+    end_time = time.perf_counter()
+    print('\nSearch-BasedRS time elapsed (seconds): ' + str(end_time - start_time))
 
     driver_coordinates = get_coordinates('nodes_coordinates.pkl', drivers)
     for driver_coordinate in driver_coordinates:
@@ -38,7 +42,7 @@ def index():
     folium.Marker(source_coordinates[0], tooltip='Source', icon=folium.Icon(color='blue', icon='chevron-up')).add_to(folium_map),
     folium.Marker(source_coordinates[1], tooltip='Destination', icon=folium.Icon(color='blue', icon='chevron-down')).add_to(folium_map),
 
-    print(get_largest_angle(driver_coordinates[1], source_coordinates))
+    print('\nLargest angle (degrees): ' + str(get_largest_angle(driver_coordinates[1], source_coordinates)))
 
     # add additional markers and path if match/es found
     if sources != None:
