@@ -149,6 +149,15 @@ def shortestpath(filename, start, intermediate_list):
     # print('\nRoute length: ' + str(total_distance) + 'km\n')
     return path, total_distance, output_node
 
+# compute the price for a certain passenger given srp and route distance
+def compute_timenprice(route_distance, srp):
+    # fare = 40 + distance*13.50*SRP + time*2*SRP
+    # compute time (assume 19.30 kph speed and no traffic) in minutes
+    # source https://www.manilatimes.net/2019/10/11/supplements/no-end-in-sight-for-metro-manila-traffic/629952/
+    route_time = (route_distance/19.30)*60
+    fare = 40 + route_distance*13.50*srp + route_time*2*srp
+    return route_time, fare
+
 # dijkstra based method from source
 def searchbasedRS_source(filename, passenger_source, passenger_others, destination_others, return_dict):
     shortest_distance, temp_path, passenger_match = dijkstra_endlist(filename, passenger_source, passenger_others)
@@ -272,8 +281,11 @@ def searchbasedRS(filename, driver_nodelist, passenger_nodelist, destination_lis
         print('\nPath taken:')
         print(path)
         print('\nRoute length: ' + str(route_distance) + 'km')
+        route_time, fare = compute_timenprice(route_distance, srp_list[0])
+        print('\nApproximate route time: %.2f minutes' % route_time)
+        print('\nPrice of trip: Php %.2f' % fare)
         print('\nSRPs:' + str(srp_list))
-        return sources, destinations, path, route_distance
+        return sources, destinations, path
 
 # this function gets the largest angle that includes all the nodes given a center and peripheral nodes
 def get_largest_angle(center, peripheral):
@@ -405,8 +417,11 @@ def grab_share(filename, driver_nodelist, passenger_nodelist, destination_list, 
         print('\nPath taken:')
         print(path)
         print('\nRoute length: ' + str(route_distance) + 'km')
+        route_time, fare = compute_timenprice(route_distance, srp_list[0])
+        print('\nApproximate route time: %.2f minutes' % route_time)
+        print('\nPrice of trip: Php %.2f' % fare)
         print('\nSRPs:' + str(srp_list))
         print('\nAngle: ' + str(angle))
-        return sources, destinations, path, route_distance
+        return sources, destinations, path
 
 

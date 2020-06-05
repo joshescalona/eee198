@@ -23,17 +23,17 @@ def index():
     drivers = ['30763220','1402297896','5499240548']
 
     # searchbased-rs implementation ------------------
-    # start_time = time.perf_counter()
-    # sources, destinations, path, route_distance = searchbasedRS('adj_list_obj.pkl', drivers, passengers, passenger_destinations, 0.8)
-    # end_time = time.perf_counter()
-    # print('\nSearch-BasedRS time elapsed (seconds): ' + str(end_time - start_time) + '\n')
+    start_time = time.perf_counter()
+    sources, destinations, path = searchbasedRS('adj_list_obj.pkl', drivers, passengers, passenger_destinations, 0.8)
+    end_time = time.perf_counter()
+    print('\nSearch-BasedRS time elapsed (seconds): ' + str(end_time - start_time) + '\n')
     # ------------------------------------------------
 
     # # grab algorithm implementation ------------------
-    start_time = time.perf_counter()
-    sources, destinations, path, route_distance = grab_share('adj_list_obj.pkl', drivers, passengers, passenger_destinations, 121)
-    end_time = time.perf_counter()
-    print('\nGrabShare Algorithm time elapsed (seconds): ' + str(end_time - start_time) + '\n')
+    # start_time = time.perf_counter()
+    # sources, destinations, path = grab_share('adj_list_obj.pkl', drivers, passengers, passenger_destinations, 150)
+    # end_time = time.perf_counter()
+    # print('\nGrabShare Algorithm time elapsed (seconds): ' + str(end_time - start_time) + '\n')
     # # ------------------------------------------------
 
     driver_coordinates = get_coordinates('nodes_coordinates.pkl', drivers)
