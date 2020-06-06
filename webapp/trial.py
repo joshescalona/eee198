@@ -1,43 +1,58 @@
-import multiprocessing
-import sys
+from pqdict import PQDict
+import pickle
 
-def func1(test,rocket, return_dict):
-    print('start func1')
-    print(test)
-    while rocket < 999999999:
-        rocket +=1
-    return_dict[1] = 12345
-    return_dict[2] = 1234
+# load adjacency list object
+def load_object(filename):
+    with open(filename, 'rb') as f:
+        return pickle.load(f)
 
-def func2(rocket, return_dict):
-    print('start func2')
-    while rocket < 99999999:
-        rocket +=1
-    return_dict[1] = 123456
-    return_dict[2] = 321
+def dijkstra_endlist(adjacency_list, start, nodelist):
+    graph = adjacency_list
+    match_node = 0
+    inf = float('inf')
+    shortest_distances = {start: 0}                 # mapping of nodes to their dist from start
+    queue_sd = PQDict(shortest_distances)           # priority queue for tracking min shortest path
+    predecessors = {}                               # mapping of nodes to their direct predecessors
+    unexplored = set(graph.keys())                  # unexplored nodes
+    path = []
 
-def main():
-    manager = multiprocessing.Manager()
-    return_dict = manager.dict()
-    rocket = 0
-    test = 1
-    p1 = multiprocessing.Process(target = func1, args=(test, rocket, return_dict))
-    p1.start()
-    p2 = multiprocessing.Process(target = func2, args=(rocket, return_dict))
-    p2.start()
+    while unexplored:                                           # nodes yet to explore
+        try:
+          (minNode, minDistance) = queue_sd.popitem()             # node w/ min dist d on frontier
+        except KeyError:
+          print('Path not reachable')
+          return None, None, None
+        shortest_distances[minNode] = minDistance               # est dijkstra greedy score
+        unexplored.remove(minNode)                              # remove from unexplored
+        if minNode in nodelist:
+             match_node = minNode
+             break                                              # end if goal already reached
 
-    while True:
-        if p1.is_alive() == 0:
-            p2.terminate()
-            print('P2 is killed')
+        # now consider the edges from minNode with an unexplored head -
+        # we may need to update the dist of unexplored successors
+        for neighbor in graph[minNode]:
+            if neighbor in unexplored:
+                minDistance = shortest_distances[minNode] + graph[minNode][neighbor]
+                if minDistance < queue_sd.get(neighbor, inf):
+                    queue_sd[neighbor] = minDistance
+                    predecessors[neighbor] = minNode                   # set/update predecessor
+
+    currentNode = match_node
+    while currentNode != start:
+        try:
+            path.insert(0,currentNode)
+            currentNode = predecessors[currentNode]
+        except KeyError:
+            print('Path not reachable')
             break
-        if p2.is_alive() == 0:
-            p1.terminate()
-            print('P1 is killed')
-            break
+    path.insert(0,start)
+    if shortest_distances[match_node] != inf:
+        return shortest_distances[match_node], path, match_node
 
-    print(return_dict[1])
-    print(return_dict[2])
-    print('Hello')
 
-main()
+if __name__ == '__main__':
+  adjacency_list = load_object('adj_list_obj.pkl')
+  source = '7014239115'
+  node_list = ['1802505590']
+  print(node_list)
+  shortest_distance, path, matched_node = dijkstra_endlist(adjacency_list, source, node_list)
