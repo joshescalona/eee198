@@ -421,9 +421,6 @@ def grab_share(filename, driver_nodelist, passenger_nodelist, destination_list, 
             sources.extend([peripheral[0], peripheral[3]])
             destinations.extend([peripheral[1], peripheral[4]])
 
-        print(peripheral)
-        print(sources)
-        print(destinations)
         # finding closest driver
         shortest_distance, temp_path, driver_match = dijkstra_endlist(filename, passenger_source, driver_nodelist)
         if shortest_distance == None:
