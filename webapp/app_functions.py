@@ -181,7 +181,7 @@ def searchbasedRS_source(filename, passenger_source, passenger_others, destinati
 # dijkstra based method from destinations
 def searchbasedRS_destination(filename, passenger_others, destination_source, destination_others, return_dict):
     shortest_distance, temp_path, destination_match = dijkstra_endlist(filename, destination_source, destination_others)
-    if passenger_match == None:
+    if destination_match == None:
         return_dict[1] = None
         return_dict[2] = None
     else:
@@ -375,39 +375,37 @@ def grab_share(filename, driver_nodelist, passenger_nodelist, destination_list, 
     peripheral = []
     srp_list = []
 
-    # look for 3 matches first
+    angle = 0
+    # look for 2 matches
     i = 0
-    angle = 360
-
     while i < len(passenger_others):
-        j = 0
-        while j < len(passenger_others):
-            if i == j:
-                j += 1
-                continue
-            peripheral.extend([passenger_others[i], destination_others[i], passenger_others[j], destination_others[j]])
-            peripheral.append(destination_source)
-            peripheral_coordinates = get_coordinates('nodes_coordinates.pkl', peripheral)
-            angle = get_largest_angle(center_coordinates[0], peripheral_coordinates)
-            j += 1
+        peripheral.extend([passenger_others[i], destination_others[i]])
+        peripheral.append(destination_source)
+        peripheral_coordinates = get_coordinates('nodes_coordinates.pkl', peripheral)
+        angle = get_largest_angle(center_coordinates[0], peripheral_coordinates)
         if angle <= angle_max:
             break
-
         peripheral.clear()
         i += 1
 
-    # look for 2 matches
-    i = 0
-    if angle > angle_max:
-        while i < len(passenger_others):
-            peripheral.extend([passenger_others[i], destination_others[i]])
-            peripheral.append(destination_source)
-            peripheral_coordinates = get_coordinates('nodes_coordinates.pkl', peripheral)
-            angle = get_largest_angle(center_coordinates[0], peripheral_coordinates)
-            if angle <= angle_max:
-                break
-            peripheral.clear()
-            i += 1
+    # look for 3rd match
+    j = 0
+    angle_2 = 0
+    while j < len(passenger_others):
+        if i == j:
+            j += 1
+            continue
+        peripheral.extend([passenger_others[j], destination_others[j]])
+        peripheral_coordinates = get_coordinates('nodes_coordinates.pkl', peripheral)
+        angle_2 = get_largest_angle(center_coordinates[0], peripheral_coordinates)
+        if angle_2 <= angle_max:
+            break
+        peripheral.remove(passenger_others[j])
+        peripheral.remove(destination_others[j])
+        j += 1
+
+    if angle_2 <= angle_max:
+        angle = angle_2
 
     if angle > angle_max:
         print('\nCannot find you a match at this time!\n')
@@ -420,9 +418,12 @@ def grab_share(filename, driver_nodelist, passenger_nodelist, destination_list, 
             destinations.extend([peripheral[1]])
 
         if len(peripheral) == 5:    # 2 matches only
-            sources.extend([peripheral[0], peripheral[2]])
-            destinations.extend([peripheral[1], peripheral[3]])
+            sources.extend([peripheral[0], peripheral[3]])
+            destinations.extend([peripheral[1], peripheral[4]])
 
+        print(peripheral)
+        print(sources)
+        print(destinations)
         # finding closest driver
         shortest_distance, temp_path, driver_match = dijkstra_endlist(filename, passenger_source, driver_nodelist)
         if shortest_distance == None:

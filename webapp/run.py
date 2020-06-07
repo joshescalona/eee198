@@ -34,12 +34,14 @@ def index():
         f.write('Case: ' + str(main_ctr) + '\n')
         f.close()
         start_time = time.perf_counter()
-        sources, destinations, path = searchbasedRS('adj_list_obj.pkl', drivers[main_ctr], passengers[main_ctr], passenger_destinations[main_ctr], 0.4)
+        sources, destinations, path = searchbasedRS('adj_list_obj.pkl', drivers[main_ctr], passengers[main_ctr], passenger_destinations[main_ctr], 0.5)
         end_time = time.perf_counter()
         print('\nSearch-BasedRS time elapsed (seconds): ' + str(end_time - start_time) + '\n')
         f = open("searchbased_results.txt", "a")
         f.write('Processing time: ' + str(end_time - start_time) + '\n')
         f.close()
+        print(sources)
+        print(destinations)
         # ------------------------------------------------
 
         # # grab algorithm implementation ------------------
@@ -47,12 +49,14 @@ def index():
         f.write('Case: ' + str(main_ctr) + '\n')
         f.close()
         start_time = time.perf_counter()
-        sources, destinations, path = grab_share('adj_list_obj.pkl', drivers[main_ctr], passengers[main_ctr], passenger_destinations[main_ctr], 150)
+        sources, destinations, path = grab_share('adj_list_obj.pkl', drivers[main_ctr], passengers[main_ctr], passenger_destinations[main_ctr], 60)
         end_time = time.perf_counter()
         print('\nGrabShare Algorithm time elapsed (seconds): ' + str(end_time - start_time) + '\n')
         f = open("grabshare_results.txt", "a")
         f.write('Processing time: ' + str(end_time - start_time) + '\n')
         f.close()
+        print(sources)
+        print(destinations)
         # # ------------------------------------------------
         main_ctr += 1
 

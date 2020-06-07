@@ -12,10 +12,6 @@ def save_object(obj, filename):
     with open(filename, 'wb') as output:  # Overwrites any existing file.
         pickle.dump(obj, output, pickle.HIGHEST_PROTOCOL)
 
-# def load_object(filename):
-#     with open(filename, 'rb') as f:
-#         return pickle.load(f)
-
 def get_node_distance(node1, node2, nodelist):
     # approximate radius of earth in km
     r_earth = 6373.0
@@ -162,10 +158,6 @@ pd.read_csv('mycsvfile.csv', header=None).T.to_csv('adj-list.csv', header=False,
 
 # save object adj_list
 save_object(adj_list, "adj_list_obj.pkl")
-
-# store loaded object to variable
-# adj_list = load_object("adj_list_obj.pkl")
-# print(adj_list)
 
 # edit the out_node to only get node id and coordinates
 nodes_coordinates = [(x[1], x[5], x[6]) for x in rows_node]
