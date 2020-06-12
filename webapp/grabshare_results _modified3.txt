@@ -1,0 +1,682 @@
+Case: 0
+Number of passengers: 42
+Radial parameter (passengers): 1260m
+Number of drivers: 27
+Radial parameter (driver): 2700m
+Route distance: 11.778583880975837
+Route time: 36.61735921546892
+Number of passengers: 3
+Fare: 228.13177281116907
+SRPs: 0.8100552696954995
+SRPs: 0.6765403868728629
+SRPs: 0.7412847222877045
+Angle: 41.96998752266529
+Processing time: 0.2091073999999935
+Case: 1
+Number of passengers: 19
+Radial parameter (passengers): 570m
+Number of drivers: 30
+Radial parameter (driver): 3000m
+Route distance: 11.807484319035304
+Route time: 36.707205136897315
+Number of passengers: 3
+Fare: 182.2346068219378
+SRPs: 0.6109328555686114
+SRPs: 0.6447282856423554
+SRPs: 0.672316529666339
+Angle: 33.580152092294554
+Processing time: 0.3285894999999073
+Case: 2
+Number of passengers: 72
+Radial parameter (passengers): 2160m
+Number of drivers: 2
+Radial parameter (driver): 200m
+Processing time: 0.2897204999999303
+Case: 3
+Number of passengers: 48
+Radial parameter (passengers): 1440m
+Number of drivers: 23
+Radial parameter (driver): 2300m
+Processing time: 0.09150259999933041
+Case: 4
+Number of passengers: 18
+Radial parameter (passengers): 540m
+Number of drivers: 9
+Radial parameter (driver): 900m
+Route distance: 11.310294621981893
+Route time: 35.1615376849178
+Number of passengers: 3
+Fare: 217.88126663184013
+SRPs: 0.7976307308287691
+SRPs: 0.6996789178224889
+SRPs: 0.7076206743346288
+Angle: 44.264329546810075
+Processing time: 0.2585554000006596
+Case: 5
+Number of passengers: 57
+Radial parameter (passengers): 1709m
+Number of drivers: 17
+Radial parameter (driver): 1700m
+Route distance: 12.628094452139758
+Route time: 39.258324721678
+Number of passengers: 3
+Fare: 160.51945395884772
+SRPs: 0.4840217934409654
+SRPs: 0.7511498197436465
+SRPs: 0.4179974290552457
+Angle: 49.81147106409918
+Processing time: 0.1972503000006327
+Case: 6
+Number of passengers: 50
+Radial parameter (passengers): 1500m
+Number of drivers: 5
+Radial parameter (driver): 500m
+Route distance: 11.425457322899426
+Route time: 35.519556444246916
+Number of passengers: 3
+Fare: 171.31703417502678
+SRPs: 0.582898658485299
+SRPs: 0.7772087182213342
+SRPs: 0.5554021523610699
+Angle: 56.82782442891926
+Processing time: 0.5291396000002351
+Case: 7
+Number of passengers: 30
+Radial parameter (passengers): 900m
+Number of drivers: 21
+Radial parameter (driver): 2100m
+Processing time: 0.1780932000001485
+Case: 8
+Number of passengers: 95
+Radial parameter (passengers): 2850m
+Number of drivers: 12
+Radial parameter (driver): 1200m
+Route distance: 12.899756150079202
+Route time: 40.102868860349844
+Number of passengers: 3
+Fare: 152.25823674302282
+SRPs: 0.441349153979774
+SRPs: 0.6697064722858146
+SRPs: 0.5150869432122501
+Angle: 53.13615882831556
+Processing time: 0.2993069000003743
+Case: 9
+Number of passengers: 31
+Radial parameter (passengers): 930m
+Number of drivers: 27
+Radial parameter (driver): 2700m
+Route distance: 10.714604187092712
+Route time: 33.30965032256802
+Number of passengers: 3
+Fare: 175.017493157867
+SRPs: 0.6390862750571664
+SRPs: 0.7581734971095083
+SRPs: 0.8091310027513873
+Angle: 58.43621096459731
+Processing time: 0.3894553000000087
+Case: 10
+Number of passengers: 84
+Radial parameter (passengers): 2520m
+Number of drivers: 26
+Radial parameter (driver): 2600m
+Route distance: 17.187080551141953
+Route time: 53.43133850095944
+Number of passengers: 3
+Fare: 66.04151318341061
+SRPs: 0.07684395098857665
+SRPs: 0.4069736105508209
+SRPs: 0.31386210745496185
+Angle: 42.86395043341298
+Processing time: 0.42232809999950405
+Case: 11
+Number of passengers: 42
+Radial parameter (passengers): 1260m
+Number of drivers: 7
+Radial parameter (driver): 700m
+Processing time: 0.10160670000004757
+Case: 12
+Number of passengers: 84
+Radial parameter (passengers): 2520m
+Number of drivers: 7
+Radial parameter (driver): 700m
+Route distance: 12.767399391409413
+Route time: 39.691397071739104
+Number of passengers: 3
+Fare: 118.699594580061
+SRPs: 0.3126191900674495
+SRPs: 0.8106619080531431
+SRPs: 0.6935200551307141
+Angle: 47.68638967475641
+Processing time: 0.4510669000001144
+Case: 13
+Number of passengers: 73
+Radial parameter (passengers): 2190m
+Number of drivers: 4
+Radial parameter (driver): 400m
+Route distance: 12.97513863176488
+Route time: 40.337218544346776
+Number of passengers: 3
+Fare: 139.8199730943312
+SRPs: 0.3901674403259228
+SRPs: 0.5109038739919229
+SRPs: 0.48755381487629046
+Angle: 41.804472908174205
+Processing time: 0.19263239999963844
+Case: 14
+Number of passengers: 7
+Radial parameter (passengers): 210m
+Number of drivers: 22
+Radial parameter (driver): 2200m
+Route distance: 4.963559618955824
+Route time: 15.430755292090646
+Number of passengers: 1
+Fare: 137.86956544008493
+SRPs: 1.0
+Angle: 58.222567471903744
+Processing time: 0.2678636999999071
+Case: 15
+Number of passengers: 58
+Radial parameter (passengers): 1739m
+Number of drivers: 6
+Radial parameter (driver): 600m
+Route distance: 11.166962926777138
+Route time: 34.715946922623225
+Number of passengers: 3
+Fare: 56.584246745468285
+SRPs: 0.07531929722036752
+SRPs: 0.8220505012442068
+SRPs: 0.8179382730428721
+Angle: 58.51413989874743
+Processing time: 0.7085246999995434
+Case: 16
+Number of passengers: 45
+Radial parameter (passengers): 1350m
+Number of drivers: 26
+Radial parameter (driver): 2600m
+Route distance: 11.250304320481668
+Route time: 34.97503933828497
+Number of passengers: 3
+Fare: 201.84761593773482
+SRPs: 0.7296046932520792
+SRPs: 0.7137037395985419
+SRPs: 0.7071117393894683
+Angle: 50.41814094716
+Processing time: 0.2578126999997039
+Case: 17
+Number of passengers: 56
+Radial parameter (passengers): 1680m
+Number of drivers: 7
+Radial parameter (driver): 700m
+Processing time: 0.5677685000000565
+Case: 18
+Number of passengers: 91
+Radial parameter (passengers): 2730m
+Number of drivers: 26
+Radial parameter (driver): 2600m
+Route distance: 5.019597329804454
+Route time: 15.6049657921382
+Number of passengers: 3
+Fare: 114.3767420991036
+SRPs: 0.7514738185411837
+SRPs: 0.8501371908872907
+SRPs: 0.6759201628085801
+Angle: 22.537584073205096
+Processing time: 0.1388104999996358
+Case: 19
+Number of passengers: 50
+Radial parameter (passengers): 1500m
+Number of drivers: 19
+Radial parameter (driver): 1900m
+Processing time: 1.0935863999993671
+Case: 20
+Number of passengers: 91
+Radial parameter (passengers): 2730m
+Number of drivers: 22
+Radial parameter (driver): 2200m
+Route distance: 11.918488965871195
+Route time: 37.05229730322651
+Number of passengers: 3
+Fare: 129.2569338818326
+SRPs: 0.3798099588672617
+SRPs: 0.44251275234454207
+SRPs: 0.37367663698135906
+Angle: 40.35853370582265
+Processing time: 0.27045039999939036
+Case: 21
+Number of passengers: 87
+Radial parameter (passengers): 2610m
+Number of drivers: 12
+Radial parameter (driver): 1200m
+Processing time: 0.37181000000055064
+Case: 22
+Number of passengers: 73
+Radial parameter (passengers): 2190m
+Number of drivers: 1
+Radial parameter (driver): 100m
+Processing time: 0.16412990000026184
+Case: 23
+Number of passengers: 40
+Radial parameter (passengers): 1200m
+Number of drivers: 12
+Radial parameter (driver): 1200m
+Processing time: 0.24052909999954863
+Case: 24
+Number of passengers: 15
+Radial parameter (passengers): 450m
+Number of drivers: 25
+Radial parameter (driver): 2500m
+Route distance: 12.565056881486083
+Route time: 39.062352999438595
+Number of passengers: 3
+Fare: 135.37854324530463
+SRPs: 0.3849743627465413
+SRPs: 0.7381403321437441
+SRPs: 0.7541067003403576
+Angle: 42.2041848209185
+Processing time: 0.31859520000034536
+Case: 25
+Number of passengers: 34
+Radial parameter (passengers): 1020m
+Number of drivers: 2
+Radial parameter (driver): 200m
+Route distance: 18.320753615655146
+Route time: 56.95571072224397
+Number of passengers: 3
+Fare: 131.33701677459442
+SRPs: 0.2528419151452071
+SRPs: 0.6377365243047068
+SRPs: 0.23226478188122124
+Angle: 47.90497441875681
+Processing time: 0.8786753000003955
+Case: 26
+Number of passengers: 38
+Radial parameter (passengers): 1140m
+Number of drivers: 18
+Radial parameter (driver): 1800m
+Route distance: 10.021181103953593
+Route time: 31.153930893119973
+Number of passengers: 3
+Fare: 137.60689550393033
+SRPs: 0.4939775043519169
+SRPs: 0.4418309690191852
+SRPs: 0.8713361454677394
+Angle: 42.67591274215573
+Processing time: 0.39530959999956394
+Case: 27
+Number of passengers: 56
+Radial parameter (passengers): 1680m
+Number of drivers: 21
+Radial parameter (driver): 2100m
+Processing time: 0.15462600000046223
+Case: 28
+Number of passengers: 36
+Radial parameter (passengers): 1080m
+Number of drivers: 3
+Radial parameter (driver): 300m
+Route distance: 8.410525368103885
+Route time: 26.146710988923992
+Number of passengers: 3
+Fare: 122.8077228177954
+SRPs: 0.4993364846715942
+SRPs: 0.42461399425256224
+SRPs: 0.596128460196576
+Angle: 33.49698829935994
+Processing time: 0.3777945000001637
+Case: 29
+Number of passengers: 19
+Radial parameter (passengers): 570m
+Number of drivers: 1
+Radial parameter (driver): 100m
+Route distance: 2.8031090218634667
+Route time: 8.714328565378652
+Number of passengers: 2
+Fare: 87.58425331291747
+SRPs: 0.8609320038080331
+SRPs: 0.8872246500593787
+Angle: 30.605859169416703
+Processing time: 0.8345569000002797
+Case: 30
+Number of passengers: 62
+Radial parameter (passengers): 1860m
+Number of drivers: 8
+Radial parameter (driver): 800m
+Processing time: 1.2733550000002651
+Case: 31
+Number of passengers: 85
+Radial parameter (passengers): 2550m
+Number of drivers: 24
+Radial parameter (driver): 2400m
+Route distance: 14.264444642439852
+Route time: 44.345423758880365
+Number of passengers: 3
+Fare: 90.71598974413125
+SRPs: 0.180316562755695
+SRPs: 0.6558056653422201
+SRPs: 0.4642072203907046
+Angle: 46.76712133677307
+Processing time: 0.34020220000002155
+Case: 32
+Number of passengers: 14
+Radial parameter (passengers): 420m
+Number of drivers: 15
+Radial parameter (driver): 1500m
+Route distance: 7.223543412944299
+Route time: 22.45661164645896
+Number of passengers: 3
+Fare: 113.22567181234875
+SRPs: 0.5141130883772118
+SRPs: 0.2765831002866801
+SRPs: 0.2763549763382311
+Angle: 54.009793525151736
+Processing time: 0.16557540000030713
+Case: 33
+Number of passengers: 36
+Radial parameter (passengers): 1080m
+Number of drivers: 2
+Radial parameter (driver): 200m
+Route distance: 6.467322651126396
+Route time: 20.1056662729318
+Number of passengers: 3
+Fare: 109.99432847300312
+SRPs: 0.5488882143785602
+SRPs: 0.7359099074788239
+SRPs: 0.6574325401979955
+Angle: 37.28174636682337
+Processing time: 0.16521730000022217
+Case: 34
+Number of passengers: 94
+Radial parameter (passengers): 2820m
+Number of drivers: 16
+Radial parameter (driver): 1600m
+Route distance: 7.919939811341656
+Route time: 24.621574543031056
+Number of passengers: 3
+Fare: 91.52331264180091
+SRPs: 0.32993430928126455
+SRPs: 0.8802096964807248
+SRPs: 0.3299343092812646
+Angle: 49.615084289913455
+Processing time: 1.0125006999996913
+Case: 35
+Number of passengers: 31
+Radial parameter (passengers): 930m
+Number of drivers: 22
+Radial parameter (driver): 2200m
+Route distance: 10.151943511181154
+Route time: 31.560446148749698
+Number of passengers: 3
+Fare: 102.20688533346534
+SRPs: 0.31076696554699534
+SRPs: 0.3973048189199307
+SRPs: 0.5510161698289462
+Angle: 28.383564739339022
+Processing time: 0.28947969999990164
+Case: 36
+Number of passengers: 75
+Radial parameter (passengers): 2250m
+Number of drivers: 1
+Radial parameter (driver): 100m
+Processing time: 0.15879930000028253
+Case: 37
+Number of passengers: 49
+Radial parameter (passengers): 1470m
+Number of drivers: 28
+Radial parameter (driver): 2800m
+Processing time: 0.17123150000043097
+Case: 38
+Number of passengers: 61
+Radial parameter (passengers): 1830m
+Number of drivers: 17
+Radial parameter (driver): 1700m
+Route distance: 16.812609324326747
+Route time: 52.26717924661165
+Number of passengers: 3
+Fare: 151.38443879455772
+SRPs: 0.33599667710685355
+SRPs: 0.24358729649603045
+SRPs: 0.49526941404537167
+Angle: 58.90968478909673
+Processing time: 0.41208540000025096
+Case: 39
+Number of passengers: 7
+Radial parameter (passengers): 210m
+Number of drivers: 16
+Radial parameter (driver): 1600m
+Route distance: 0.7190667058431238
+Route time: 2.235440536299867
+Number of passengers: 1
+Fare: 54.178281601481906
+SRPs: 1.0
+Angle: 13.561609085695977
+Processing time: 0.16656109999985347
+Case: 40
+Number of passengers: 50
+Radial parameter (passengers): 1500m
+Number of drivers: 21
+Radial parameter (driver): 2100m
+Route distance: 10.578742172505063
+Route time: 32.887281365300716
+Number of passengers: 3
+Fare: 139.92059587894082
+SRPs: 0.4790342497497128
+SRPs: 0.6528244810569656
+SRPs: 0.5714922605915013
+Angle: 45.15696092438833
+Processing time: 0.2595016000004762
+Case: 41
+Number of passengers: 98
+Radial parameter (passengers): 2940m
+Number of drivers: 10
+Radial parameter (driver): 1000m
+Processing time: 0.5684559000001173
+Case: 42
+Number of passengers: 7
+Radial parameter (passengers): 210m
+Number of drivers: 4
+Radial parameter (driver): 400m
+Route distance: 4.398188326804384
+Route time: 13.673124332034353
+Number of passengers: 3
+Fare: 88.0899836552971
+SRPs: 0.5545317164078483
+SRPs: 0.4747751307760528
+SRPs: 0.5988890672979618
+Angle: 49.4543324133823
+Processing time: 0.22307469999941532
+Case: 43
+Number of passengers: 98
+Radial parameter (passengers): 2940m
+Number of drivers: 25
+Radial parameter (driver): 2500m
+Route distance: 8.055839445591843
+Route time: 25.044060452617128
+Number of passengers: 3
+Fare: 129.95887916209995
+SRPs: 0.5663420602983027
+SRPs: 0.5958574337867912
+SRPs: 0.46466480260502707
+Angle: 29.502052109262195
+Processing time: 0.5776224999999613
+Case: 44
+Number of passengers: 94
+Radial parameter (passengers): 2820m
+Number of drivers: 23
+Radial parameter (driver): 2300m
+Processing time: 0.07368979999955627
+Case: 45
+Number of passengers: 72
+Radial parameter (passengers): 2160m
+Number of drivers: 17
+Radial parameter (driver): 1700m
+Route distance: 15.517779908288205
+Route time: 48.2418028236939
+Number of passengers: 3
+Fare: 150.39564963333706
+SRPs: 0.3608011842146793
+SRPs: 0.34555650806583255
+SRPs: 0.4296568081038323
+Angle: 59.59026589640939
+Processing time: 0.2742123999996693
+Case: 46
+Number of passengers: 81
+Radial parameter (passengers): 2430m
+Number of drivers: 7
+Radial parameter (driver): 700m
+Route distance: 17.17183139466637
+Route time: 53.383931796890266
+Number of passengers: 3
+Fare: 149.3951416513866
+SRPs: 0.32309259321758227
+SRPs: 0.6296832288050398
+SRPs: 0.6259949686302113
+Angle: 24.317215846293323
+Processing time: 0.2555571000002601
+Case: 47
+Number of passengers: 82
+Radial parameter (passengers): 2460m
+Number of drivers: 1
+Radial parameter (driver): 100m
+Route distance: 5.576968139050916
+Route time: 17.337724784614245
+Number of passengers: 3
+Fare: 79.63953935710437
+SRPs: 0.36047572032013614
+SRPs: 0.5985868187132634
+SRPs: 0.3304738585772436
+Angle: 47.93279988306057
+Processing time: 0.7353911000000153
+Case: 48
+Number of passengers: 61
+Radial parameter (passengers): 1830m
+Number of drivers: 20
+Radial parameter (driver): 2000m
+Route distance: 13.173157600587196
+Route time: 40.95282155622962
+Number of passengers: 3
+Fare: 59.85826321723866
+SRPs: 0.07645342711733265
+SRPs: 0.3045371827322319
+SRPs: 0.7012237637891611
+Angle: 38.15056290402907
+Processing time: 0.6339517000005799
+Case: 49
+Number of passengers: 78
+Radial parameter (passengers): 2340m
+Number of drivers: 7
+Radial parameter (driver): 700m
+Route distance: 14.858453536072245
+Route time: 46.19208353183082
+Number of passengers: 3
+Fare: 173.6934282689997
+SRPs: 0.45633316388663175
+SRPs: 0.6290075169866258
+SRPs: 0.3305265219615246
+Angle: 57.604149647721385
+Processing time: 0.8700926999999865
+Case: 50
+Number of passengers: 42
+Radial parameter (passengers): 1260m
+Number of drivers: 22
+Radial parameter (driver): 2200m
+Route distance: 7.208116772175597
+Route time: 22.40865317774797
+Number of passengers: 3
+Fare: 148.6496481253279
+SRPs: 0.7644552951577086
+SRPs: 0.7243964295363362
+SRPs: 0.7243964295363362
+Angle: 48.522611693766066
+Processing time: 0.1963410999996995
+Case: 51
+Number of passengers: 86
+Radial parameter (passengers): 2580m
+Number of drivers: 9
+Radial parameter (driver): 900m
+Processing time: 0.2565076999999292
+Case: 52
+Number of passengers: 98
+Radial parameter (passengers): 2940m
+Number of drivers: 26
+Radial parameter (driver): 2600m
+Route distance: 6.280419032754925
+Route time: 19.52461875467852
+Number of passengers: 3
+Fare: 103.8969307191288
+SRPs: 0.5159848603426478
+SRPs: 0.45645335842752705
+SRPs: 0.3686040841728961
+Angle: 52.68378968926572
+Processing time: 0.5524151999998139
+Case: 53
+Number of passengers: 45
+Radial parameter (passengers): 1350m
+Number of drivers: 3
+Radial parameter (driver): 300m
+Route distance: 13.767691395510361
+Route time: 42.801113146664335
+Number of passengers: 3
+Fare: 175.01663263766142
+SRPs: 0.4973610055402594
+SRPs: 0.5024599413587437
+SRPs: 0.7834586136094724
+Angle: 54.61190863306729
+Processing time: 0.3361259000002974
+Case: 54
+Number of passengers: 52
+Radial parameter (passengers): 1560m
+Number of drivers: 1
+Radial parameter (driver): 100m
+Route distance: 12.804576891938911
+Route time: 39.806974793592474
+Number of passengers: 3
+Fare: 118.42426187327632
+SRPs: 0.31062098326737214
+SRPs: 0.7401687223873632
+SRPs: 0.30052028045809126
+Angle: 53.9731832816928
+Processing time: 0.4579788000000917
+Case: 55
+Number of passengers: 74
+Radial parameter (passengers): 2220m
+Number of drivers: 14
+Radial parameter (driver): 1400m
+Route distance: 5.236391999161231
+Route time: 16.278938857496055
+Number of passengers: 3
+Fare: 101.10089004986301
+SRPs: 0.5917809336891154
+SRPs: 0.5680190928669239
+SRPs: 0.769458480702507
+Angle: 59.642360489347254
+Processing time: 1.5548966999995173
+Case: 56
+Number of passengers: 21
+Radial parameter (passengers): 630m
+Number of drivers: 23
+Radial parameter (driver): 2300m
+Route distance: 5.186337094994116
+Route time: 16.12332775645839
+Number of passengers: 2
+Fare: 116.27622955424127
+SRPs: 0.7458887532110589
+SRPs: 0.5198650436397736
+Angle: 51.09979186771375
+Processing time: 0.595450200000414
+Case: 57
+Number of passengers: 57
+Radial parameter (passengers): 1709m
+Number of drivers: 13
+Radial parameter (driver): 1300m
+Processing time: 0.09254490000057558
+Case: 58
+Number of passengers: 8
+Radial parameter (passengers): 240m
+Number of drivers: 30
+Radial parameter (driver): 3000m
+Processing time: 0.2943961000000854
+Case: 59
+Number of passengers: 87
+Radial parameter (passengers): 2610m
+Number of drivers: 12
+Radial parameter (driver): 1200m
+Processing time: 0.15295479999986128

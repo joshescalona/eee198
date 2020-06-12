@@ -16,6 +16,8 @@ def index():
     # Geojson data
     route = os.path.join('map_data', 'route.json')
 
+
+
     # passengers = ['30763177','5585622052','30763115']
     # passenger_destinations = ['17216442','2517360527','2517360522']
     # drivers = ['30763220','1402297896','5499240548']
@@ -26,12 +28,20 @@ def index():
     passengers = load_object('passenger_sources.pkl')
     passenger_destinations = load_object('passenger_destinations.pkl')
     drivers = load_object('driver_locations.pkl')
+    pass_radii = load_object('min_pass_radii.pkl')
+    dri_radii = load_object('min_dri_radii.pkl')
+
+    ctr = 0
 
     main_ctr = 0
-    while main_ctr < 30:
+    while main_ctr < 60:
         # searchbased-rs implementation ------------------
         f = open("searchbased_results.txt", "a")
         f.write('Case: ' + str(main_ctr) + '\n')
+        f.write('Number of passengers: ' + str(len(passengers[main_ctr])) + '\n')
+        f.write('Radial parameter (passengers): ' + str(pass_radii[main_ctr]) + 'm\n')
+        f.write('Number of drivers: ' + str(len(drivers[main_ctr])) + '\n')
+        f.write('Radial parameter (driver): ' + str(dri_radii[main_ctr]) + 'm\n')
         f.close()
         start_time = time.perf_counter()
         sources, destinations, path = searchbasedRS('adj_list_obj.pkl', drivers[main_ctr], passengers[main_ctr], passenger_destinations[main_ctr], 0.5)
@@ -40,13 +50,15 @@ def index():
         f = open("searchbased_results.txt", "a")
         f.write('Processing time: ' + str(end_time - start_time) + '\n')
         f.close()
-        print(sources)
-        print(destinations)
         # ------------------------------------------------
 
         # # grab algorithm implementation ------------------
         f = open("grabshare_results.txt", "a")
         f.write('Case: ' + str(main_ctr) + '\n')
+        f.write('Number of passengers: ' + str(len(passengers[main_ctr])) + '\n')
+        f.write('Radial parameter (passengers): ' + str(pass_radii[main_ctr]) + 'm\n')
+        f.write('Number of drivers: ' + str(len(drivers[main_ctr])) + '\n')
+        f.write('Radial parameter (driver): ' + str(dri_radii[main_ctr]) + 'm\n')
         f.close()
         start_time = time.perf_counter()
         sources, destinations, path = grab_share('adj_list_obj.pkl', drivers[main_ctr], passengers[main_ctr], passenger_destinations[main_ctr], 60)
@@ -55,8 +67,6 @@ def index():
         f = open("grabshare_results.txt", "a")
         f.write('Processing time: ' + str(end_time - start_time) + '\n')
         f.close()
-        print(sources)
-        print(destinations)
         # # ------------------------------------------------
         main_ctr += 1
 
@@ -77,7 +87,7 @@ def index():
     # folium.Marker(source_coordinates[1], tooltip='Destination', icon=folium.Icon(color='blue', icon='chevron-down')).add_to(folium_map),
 
     # print('\nLargest angle (degrees): ' + str(get_largest_angle(driver_coordinates[1], source_coordinates)))
-    # add additional markers and path if match/es found
+    # # add additional markers and path if match/es found
     if sources!=None:
         # add path
         coordinates = get_coordinates('nodes_coordinates.pkl', path)

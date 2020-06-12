@@ -45,15 +45,6 @@ class wayHandler(osm.SimpleHandler):
         self.osm_data = []
 
     def tag_inventory(self, elem, elem_type):
-        # if len(elem.tags)==0:
-        #     self.osm_data.append([elem_type,
-        #                            elem.id,
-        #                             0,
-        #                             '',
-        #                             '',
-        #                            elem.nodes])
-
-        # else:
         key = []
         value = []
         include = 0
@@ -77,24 +68,6 @@ class wayHandler(osm.SimpleHandler):
 
     def way(self, w):
         self.tag_inventory(w, "way")
-
-
-## relation handler not needed at the moment ##
-# class relationHandler(osm.SimpleHandler):
-#     def __init__(self):
-#         osm.SimpleHandler.__init__(self)
-#         self.osm_data = []
-
-#     def tag_inventory(self, elem, elem_type):
-#         for tag in elem.tags:
-#             self.osm_data.append([elem_type,
-#                                    elem.id,
-#                                    len(elem.tags),
-#                                    tag.k,
-#                                    tag.v])
-
-#     def relation(self, r):
-#         self.tag_inventory(r, "relation")
 
 
 #get all the nodes and information needed
