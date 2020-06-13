@@ -56,7 +56,7 @@ def get_random_parameters():
     rand_dri_radius = random.randint(min_dri_radius,3000)
     # print('\nArea radius for drivers: %d' % rand_dri_radius)
 
-    return rand_pass_no, rand_dri_no, rand_pass_radius, rand_dri_radius, min_pass_radius, min_dri_radius
+    return rand_pass_no, rand_dri_no, rand_pass_radius, rand_dri_radius
 
 def check_radius(source_node, check_node, maximum_radius):
     # approximate radius of earth in m
@@ -90,11 +90,11 @@ adj_list = load_object('adj_list_obj.pkl')
 passenger_sources = []
 passenger_destinations =[]
 driver_locations = []
-min_pass_radius = []
-min_dri_radius = []
+rand_pass_radii = []
+rand_dri_radii = []
 
 # loop through multiple times to get suficient data
-number_of_cases = 60
+number_of_cases = 300
 print('Randomly generating passengers and drivers..')
 print('Number of cases: %d' % number_of_cases)
 i = 0
@@ -106,10 +106,10 @@ while i < number_of_cases:
     destinations_list.append(random.choice(list(adj_list)))
     drivers_list.append(random.choice(list(adj_list)))
 
-    rand_pass_no, rand_dri_no, rand_pass_radius, rand_dri_radius, min_pass_rad, min_dri_rad = get_random_parameters()
+    rand_pass_no, rand_dri_no, rand_pass_radius, rand_dri_radius = get_random_parameters()
 
-    min_pass_radius.append(min_pass_rad)
-    min_dri_radius.append(min_dri_rad)
+    rand_pass_radii.append(rand_pass_radius)
+    rand_dri_radii.append(rand_dri_radius)
 
     # passenger sources
     j = 0
@@ -148,6 +148,6 @@ while i < number_of_cases:
 save_object(passenger_sources, "passenger_sources.pkl")
 save_object(passenger_destinations, "passenger_destinations.pkl")
 save_object(driver_locations, "driver_locations.pkl")
-save_object(min_pass_radius, "min_pass_radii.pkl")
-save_object(min_dri_radius, "min_dri_radii.pkl")
+save_object(rand_pass_radii, "rand_pass_radii.pkl")
+save_object(rand_dri_radii, "rand_dri_radii.pkl")
 

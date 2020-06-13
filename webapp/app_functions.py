@@ -5,7 +5,6 @@ import multiprocessing
 import sys
 import math, cmath
 
-
 # load adjacency list object
 def load_object(filename):
     with open(filename, 'rb') as f:
@@ -191,7 +190,7 @@ def searchbasedRS_destination(filename, passenger_others, destination_source, de
         return_dict[2] = destination_match
 
 # this algorithm assumes the first item in passenger_nodelist and destination_list is the source
-def searchbasedRS(filename, driver_nodelist, passenger_nodelist, destination_list, srp_min):
+def searchbasedRS(filename, driver_nodelist, passenger_nodelist, destination_list, srp_min, row_excel):
     passenger_source = passenger_nodelist[0]
     passenger_others = passenger_nodelist.copy()
     passenger_others.pop(0)
@@ -235,7 +234,7 @@ def searchbasedRS(filename, driver_nodelist, passenger_nodelist, destination_lis
             # assign the matched passenger source and destination
             if return_dict[1] == None:
                 print('\nPath not reachable!\n')
-                return None, None, None
+                return None, None, None, None, None, None, None
             passenger_match = return_dict[1]
             destination_match = return_dict[2]
 
@@ -244,21 +243,21 @@ def searchbasedRS(filename, driver_nodelist, passenger_nodelist, destination_lis
             shortest_distance, temp_path, driver_match = dijkstra_endlist(filename, passenger_source, driver_nodelist)
             if shortest_distance == None:
                 print('\nPath not reachable!\n')
-                return None, None, None
+                return None, None, None, None, None, None, None
 
             # find shortest path from driver to all sources
             sources.append(passenger_match)
             path_temp, route_distance, end_node = shortestpath(filename, driver_match, sources)
             if path_temp == None:
                 print('\nPath not reachable!\n')
-                return None, None, None
+                return None, None, None, None, None, None, None
 
             # find shortest path from end node in sources to destinations
             destinations.append(destination_match)
             path_destination, route_distance_destination, end_node = shortestpath(filename, end_node, destinations)
             if path_destination == None:
                 print('\nPath not reachable!\n')
-                return None, None, None
+                return None, None, None, None, None, None, None
             path_destination.pop(0)     #removing first item since duplicate in last item from path
 
             # getting total path and total route distance
@@ -298,10 +297,9 @@ def searchbasedRS(filename, driver_nodelist, passenger_nodelist, destination_lis
 
     if len(sources) == 1:
         print('\nCannot find you a match at this time!\n')
-        return None, None, None
+        return None, None, None, None, None, None, None
 
     else:
-        f = open("searchbased_results.txt", "a")
         print('\nMatched passengers:')
         print(sources)
         print('\nCorresponding destinations:')
@@ -311,18 +309,11 @@ def searchbasedRS(filename, driver_nodelist, passenger_nodelist, destination_lis
         print('\nPath taken:')
         print(path)
         print('\nRoute length: ' + str(route_distance) + 'km')
-        f.write('Route distance: ' + str(route_distance) + '\n')
         route_time, fare = compute_timenprice(route_distance, srp_list[0])
         print('\nApproximate route time: %.2f minutes' % route_time)
-        f.write('Route time: ' + str(route_time) + '\n')
-        f.write('Number of passengers: ' + str(len(sources))+'\n')
-        print('\nPrice of trip: Php %.2f' % fare)
-        f.write('Fare: ' + str(fare) + '\n')
         print('\nSRPs:' + str(srp_list))
-        for srp in srp_list:
-            f.write('SRPs: ' + str(srp) + '\n')
-        return sources, destinations, path
-        f.close()
+
+        return sources, destinations, path, route_distance, route_time, fare, srp_list
 
 # this function gets the largest angle that includes all the nodes given a center and peripheral nodes
 def get_largest_angle(center, peripheral):
@@ -409,7 +400,7 @@ def grab_share(filename, driver_nodelist, passenger_nodelist, destination_list, 
 
     if angle > angle_max:
         print('\nCannot find you a match at this time!\n')
-        return None, None, None
+        return None, None, None, None, None, None, None, None
 
     else:
         # assign the matched passenger sources and destinations
@@ -425,19 +416,19 @@ def grab_share(filename, driver_nodelist, passenger_nodelist, destination_list, 
         shortest_distance, temp_path, driver_match = dijkstra_endlist(filename, passenger_source, driver_nodelist)
         if shortest_distance == None:
             print('\nPath not reachable!\n')
-            return None, None, None
+            return None, None, None, None, None, None, None, None
 
         # find shortest path from driver to all sources
         path, route_distance, end_node = shortestpath(filename, driver_match, sources)
         if path == None:
             print('\nPath not reachable!\n')
-            return None, None, None
+            return None, None, None, None, None, None, None, None
 
         # find shortest path from end node in sources to destinations
         path_destination, route_distance_destination, end_node = shortestpath(filename, end_node, destinations)
         if path_destination == None:
             print('\nPath not reachable!\n')
-            return None, None, None
+            return None, None, None, None, None, None, None, None
         path_destination.pop(0)     #removing first item since duplicate in last item from path
 
         # getting total path and total route distance
@@ -452,7 +443,6 @@ def grab_share(filename, driver_nodelist, passenger_nodelist, destination_list, 
             srp = withoutrs_distance/route_distance
             srp_list.append(srp)
 
-        f = open("grabshare_results.txt", "a")
         print('\nMatched passengers:')
         print(sources)
         print('\nCorresponding destinations:')
@@ -467,14 +457,7 @@ def grab_share(filename, driver_nodelist, passenger_nodelist, destination_list, 
         print('\nPrice of trip: Php %.2f' % fare)
         print('\nSRPs:' + str(srp_list))
         print('\nAngle: ' + str(angle))
-        f.write('Route distance: ' + str(route_distance) + '\n')
-        f.write('Route time: ' + str(route_time) + '\n')
-        f.write('Number of passengers: ' + str(len(sources))+'\n')
-        f.write('Fare: ' + str(fare) + '\n')
-        for srp in srp_list:
-            f.write('SRPs: ' + str(srp) + '\n')
-        f.write('Angle: ' + str(angle) + '\n')
-        f.close()
-        return sources, destinations, path
+
+        return sources, destinations, path, route_distance, route_time, fare, srp_list, angle
 
 
