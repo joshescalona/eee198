@@ -13,7 +13,6 @@ app = Flask(__name__)
 def index():
     # UP Diliman coordinates
     start_coords = (14.6538, 121.0685)
-    folium_map = folium.Map(location=start_coords,zoom_start=16,height='85%')
 
     # Geojson data
     route = os.path.join('map_data', 'route.json')
@@ -63,7 +62,6 @@ def index():
     row_excel = 2
     main_ctr = 0
     while main_ctr < 300:
-        # searchbased-rs implementation ------------------
         a = ws.cell(row = row_excel, column = 1)
         a.value = main_ctr+1
         a = ws.cell(row = row_excel, column = 2)
@@ -74,6 +72,9 @@ def index():
         a.value = len(drivers[main_ctr])
         a = ws.cell(row = row_excel, column = 5)
         a.value = dri_radii[main_ctr]
+
+        folium_map = folium.Map(location=start_coords,zoom_start=16,height='85%')
+        # searchbased-rs implementation ------------------
         start_time = time.perf_counter()
         sources, destinations, path, route_distance, route_time, fare, srp_list = searchbasedRS('adj_list_obj.pkl', drivers[main_ctr], passengers[main_ctr], passenger_destinations[main_ctr], 0.5, row_excel)
         end_time = time.perf_counter()
@@ -96,6 +97,63 @@ def index():
             a.value = end_time - start_time
         # ------------------------------------------------
 
+        # save html file for searchbased
+        # ----------------------------------------------------------------------- #
+            driver_coordinates = get_coordinates('nodes_coordinates.pkl', drivers[main_ctr])
+            for driver_coordinate in driver_coordinates:
+                    # folium.Marker(driver_coordinate, tooltip='Driver', icon=folium.Icon(color='red', icon='user')).add_to(folium_map),
+                     # Create custom marker icon
+                    car_icon = folium.features.CustomIcon('map_data/car_marker.png', icon_size=(40, 40))
+                    folium.Marker(driver_coordinate,icon=car_icon).add_to(folium_map),
+
+            # # add additional markers and path if match/es found
+            if sources!=None:
+                # add path
+                coordinates = get_coordinates('nodes_coordinates.pkl', path)
+                way_sample=folium.PolyLine(locations=coordinates,weight=5,color = 'red')
+                folium_map.add_child(way_sample)
+                # Create markers for matched sources and destinations
+                # markers for other available passengers shown
+                # All drivers will have a marker to mimic actual ride sharing applications
+                coordinates_pass = get_coordinates('nodes_coordinates.pkl', passengers[main_ctr])
+                for passenger in coordinates_pass:
+                    if passenger in coordinates:
+                        continue
+                    icon_color = 'beige'
+                    folium.Marker(passenger, tooltip='Source', icon=folium.Icon(color=icon_color, icon='user')).add_to(folium_map),
+
+                ctr = 0
+                for source in sources:
+                    index = path.index(source)
+                    if ctr == 0:
+                        icon_color = 'blue'
+                    elif ctr == 1:
+                        icon_color = 'green'
+                    elif ctr == 2:
+                        icon_color = 'purple'
+                    folium.Marker(coordinates[index], tooltip='Source', icon=folium.Icon(color=icon_color, icon='chevron-up')).add_to(folium_map),
+                    ctr+=1
+
+                ctr = 0
+                for destination in destinations:
+                    index = path.index(destination)
+                    if ctr == 0:
+                        icon_color = 'blue'
+                    elif ctr == 1:
+                        icon_color = 'green'
+                    elif ctr == 2:
+                        icon_color = 'purple'
+                    folium.Marker(coordinates[index], tooltip='Destination', icon=folium.Icon(color=icon_color, icon='chevron-down')).add_to(folium_map),
+                    ctr+=1
+
+        # # Geojson overlay
+        # folium.GeoJson(route, name='route').add_to(folium_map)
+
+        fn='templates/map.html'
+        fn = fn.replace(fn, 'templates/map' + str(main_ctr) + '_search.html')
+        folium_map.save(fn)
+
+        folium_map = folium.Map(location=start_coords,zoom_start=16,height='85%')
         # # grab algorithm implementation ------------------
         start_time = time.perf_counter()
         sources, destinations, path, route_distance, route_time, fare, srp_list, angle = grab_share('adj_list_obj.pkl', drivers[main_ctr], passengers[main_ctr], passenger_destinations[main_ctr], 60)
@@ -119,73 +177,69 @@ def index():
             a.value = angle
             a = ws.cell(row = row_excel, column = 24)
             a.value = end_time - start_time
-        # # ------------------------------------------------
-        row_excel += 1
-        main_ctr += 1
 
-    wb.save('data.xlsx')
+            # save html file for grab
+            # ----------------------------------------------------------------------- #
+            driver_coordinates = get_coordinates('nodes_coordinates.pkl', drivers[main_ctr])
+            for driver_coordinate in driver_coordinates:
+                    # folium.Marker(driver_coordinate, tooltip='Driver', icon=folium.Icon(color='red', icon='user')).add_to(folium_map),
+                     # Create custom marker icon
+                    car_icon = folium.features.CustomIcon('map_data/car_marker.png', icon_size=(40, 40))
+                    folium.Marker(driver_coordinate,icon=car_icon).add_to(folium_map),
 
-    # ----------------------------------------------------------------------- #
-    # this part just visualizes the last item in the loop
-    driver_coordinates = get_coordinates('nodes_coordinates.pkl', drivers[main_ctr-1])
-    for driver_coordinate in driver_coordinates:
-            # folium.Marker(driver_coordinate, tooltip='Driver', icon=folium.Icon(color='red', icon='user')).add_to(folium_map),
-             # Create custom marker icon
-            car_icon = folium.features.CustomIcon('map_data/car_marker.png', icon_size=(40, 40))
-            folium.Marker(driver_coordinate,icon=car_icon).add_to(folium_map),
+            # # add additional markers and path if match/es found
+            if sources!=None:
+                # add path
+                coordinates = get_coordinates('nodes_coordinates.pkl', path)
+                way_sample=folium.PolyLine(locations=coordinates,weight=5,color = 'red')
+                folium_map.add_child(way_sample)
+                # Create markers for matched sources and destinations
+                # markers for other available passengers shown
+                # All drivers will have a marker to mimic actual ride sharing applications
+                coordinates_pass = get_coordinates('nodes_coordinates.pkl', passengers[main_ctr])
+                for passenger in coordinates_pass:
+                    if passenger in coordinates:
+                        continue
+                    icon_color = 'beige'
+                    folium.Marker(passenger, tooltip='Source', icon=folium.Icon(color=icon_color, icon='user')).add_to(folium_map),
 
-    # sources = None
-    # add source and destination markers
-    # source_nodes = [passengers[0], passenger_destinations[0]]
-    # source_coordinates = get_coordinates('nodes_coordinates.pkl', source_nodes)z
-    # folium.Marker(source_coordinates[0], tooltip='Source', icon=folium.Icon(color='blue', icon='chevron-up')).add_to(folium_map),
-    # folium.Marker(source_coordinates[1], tooltip='Destination', icon=folium.Icon(color='blue', icon='chevron-down')).add_to(folium_map),
+                ctr = 0
+                for source in sources:
+                    index = path.index(source)
+                    if ctr == 0:
+                        icon_color = 'blue'
+                    elif ctr == 1:
+                        icon_color = 'green'
+                    elif ctr == 2:
+                        icon_color = 'purple'
+                    folium.Marker(coordinates[index], tooltip='Source', icon=folium.Icon(color=icon_color, icon='chevron-up')).add_to(folium_map),
+                    ctr+=1
 
-    # print('\nLargest angle (degrees): ' + str(get_largest_angle(driver_coordinates[1], source_coordinates)))
-    # # add additional markers and path if match/es found
-    if sources!=None:
-        # add path
-        coordinates = get_coordinates('nodes_coordinates.pkl', path)
-        way_sample=folium.PolyLine(locations=coordinates,weight=5,color = 'red')
-        folium_map.add_child(way_sample)
-        # Create markers for matched sources and destinations
-        # markers for other available passengers shown
-        # All drivers will have a marker to mimic actual ride sharing applications
-        coordinates_pass = get_coordinates('nodes_coordinates.pkl', passengers[main_ctr-1])
-        for passenger in coordinates_pass:
-            if passenger in coordinates:
-                continue
-            icon_color = 'beige'
-            folium.Marker(passenger, tooltip='Source', icon=folium.Icon(color=icon_color, icon='user')).add_to(folium_map),
-
-        ctr = 0
-        for source in sources:
-            index = path.index(source)
-            if ctr == 0:
-                icon_color = 'blue'
-            elif ctr == 1:
-                icon_color = 'green'
-            elif ctr == 2:
-                icon_color = 'purple'
-            folium.Marker(coordinates[index], tooltip='Source', icon=folium.Icon(color=icon_color, icon='chevron-up')).add_to(folium_map),
-            ctr+=1
-
-        ctr = 0
-        for destination in destinations:
-            index = path.index(destination)
-            if ctr == 0:
-                icon_color = 'blue'
-            elif ctr == 1:
-                icon_color = 'green'
-            elif ctr == 2:
-                icon_color = 'purple'
-            folium.Marker(coordinates[index], tooltip='Destination', icon=folium.Icon(color=icon_color, icon='chevron-down')).add_to(folium_map),
-            ctr+=1
+                ctr = 0
+                for destination in destinations:
+                    index = path.index(destination)
+                    if ctr == 0:
+                        icon_color = 'blue'
+                    elif ctr == 1:
+                        icon_color = 'green'
+                    elif ctr == 2:
+                        icon_color = 'purple'
+                    folium.Marker(coordinates[index], tooltip='Destination', icon=folium.Icon(color=icon_color, icon='chevron-down')).add_to(folium_map),
+                    ctr+=1
 
         # # Geojson overlay
         # folium.GeoJson(route, name='route').add_to(folium_map)
 
-    folium_map.save('templates/map.html')
+        fn='templates/map.html'
+        fn = fn.replace(fn, 'templates/map' + str(main_ctr) + '_grab.html')
+        folium_map.save(fn)
+
+        # # ------------------------------------------------
+        row_excel += 1
+        main_ctr += 1
+
+
+    wb.save('data.xlsx')
     return render_template('index.html')
 
 if __name__ == '__main__':
