@@ -1,11 +1,14 @@
 from flask import Flask, render_template
 import folium
+from branca.element import Template, MacroElement
+from folium.plugins import FloatImage
 import os
 import json
 import time
 from app_functions import dijkstra, get_coordinates, dijkstra_endlist, shortestpath, searchbasedRS, grab_share, get_largest_angle, load_object
 from openpyxl import Workbook
 from openpyxl import load_workbook
+from templatefile import template1, template2, template3
 
 app = Flask(__name__)
 
@@ -13,6 +16,8 @@ app = Flask(__name__)
 def index():
     # UP Diliman coordinates
     start_coords = (14.6538, 121.0685)
+
+    macro = MacroElement()
 
     # Geojson data
     route = os.path.join('map_data', 'route.json')
@@ -74,6 +79,7 @@ def index():
         a.value = dri_radii[main_ctr]
 
         folium_map = folium.Map(location=start_coords,zoom_start=16,height='85%')
+
         # searchbased-rs implementation ------------------
         start_time = time.perf_counter()
         sources, destinations, path, route_distance, route_time, fare, srp_list = searchbasedRS('adj_list_obj.pkl', drivers[main_ctr], passengers[main_ctr], passenger_destinations[main_ctr], 0.5, row_excel)
@@ -145,6 +151,17 @@ def index():
                         icon_color = 'purple'
                     folium.Marker(coordinates[index], tooltip='Destination', icon=folium.Icon(color=icon_color, icon='chevron-down')).add_to(folium_map),
                     ctr+=1
+
+                # add legend
+                if len(sources) == 1:
+                    macro._template = Template(template1)
+                    folium_map.get_root().add_child(macro)
+                elif len(sources) == 2:
+                    macro._template = Template(template2)
+                    folium_map.get_root().add_child(macro)
+                else:
+                    macro._template = Template(template3)
+                    folium_map.get_root().add_child(macro)
 
         # # Geojson overlay
         # folium.GeoJson(route, name='route').add_to(folium_map)
@@ -226,6 +243,17 @@ def index():
                         icon_color = 'purple'
                     folium.Marker(coordinates[index], tooltip='Destination', icon=folium.Icon(color=icon_color, icon='chevron-down')).add_to(folium_map),
                     ctr+=1
+
+                # add legend
+                if len(sources) == 1:
+                    macro._template = Template(template1)
+                    folium_map.get_root().add_child(macro)
+                elif len(sources) == 2:
+                    macro._template = Template(template2)
+                    folium_map.get_root().add_child(macro)
+                else:
+                    macro._template = Template(template3)
+                    folium_map.get_root().add_child(macro)
 
         # # Geojson overlay
         # folium.GeoJson(route, name='route').add_to(folium_map)
